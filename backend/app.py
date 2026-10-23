@@ -22,6 +22,11 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from collections import defaultdict
 from functools import wraps
 
+import sys
+BASE_DIR      = os.path.dirname(os.path.abspath(__file__))
+if BASE_DIR not in sys.path:
+    sys.path.insert(0, BASE_DIR)
+
 import email_service
 
 try:
@@ -36,7 +41,6 @@ from flask_cors import CORS
 # ─────────────────────────────────────────────────────────────
 # Configuration
 # ─────────────────────────────────────────────────────────────
-BASE_DIR      = os.path.dirname(os.path.abspath(__file__))
 FRONTEND_DIR  = os.path.join(BASE_DIR, "..", "Front end")
 DB_FILE       = os.path.join(BASE_DIR, "complaints.db")
 MODEL_PATH    = os.path.join(BASE_DIR, "..", "Datasets", "b2_multitask_model.pt")
@@ -46,7 +50,7 @@ MAX_FILE_SIZE = 5 * 1024 * 1024  # 5 MB
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
 app = Flask(__name__)
-app.secret_key = "super_secret_key_123"
+app.secret_key = os.environ.get("FLASK_SECRET_KEY", "super_secret_key_123")
 CORS(app, supports_credentials=True)   # Allow cross-origin from the HTML pages
 
 # ─────────────────────────────────────────────────────────────
@@ -932,7 +936,8 @@ def submit_complaint():
 
     # Trigger email asynchronously (only if email notifications enabled)
     if settings["email"]:
-        threading.Thread(target=email_service.send_registration_email, args=(complaint,)).start()
+        base_domain = request.host_url.rstrip('/')
+        threading.Thread(target=email_service.send_registration_email, args=(complaint, base_domain)).start()
 
     return jsonify({
         "success":      True,
@@ -1032,8 +1037,9 @@ def update_status(complaint_id: str):
             conn.close()
             
             # Trigger status email asynchronously (only if email notifications enabled)
-            if get_settings()["email"]:
-                threading.Thread(target=email_service.send_status_email, args=(c, status, note)).start()
+            if get_settings()["email"] and c.get("email"):
+                base_domain = request.host_url.rstrip('/')
+                threading.Thread(target=email_service.send_status_email, args=(c, status, note, base_domain)).start()
             
             return jsonify({"success": True, "complaint_id": complaint_id, "status": status})
 
@@ -1085,8 +1091,10 @@ def model_status():
 # ─────────────────────────────────────────────────────────────
 # Startup
 # ─────────────────────────────────────────────────────────────
+# Start model background loading on import so it works under WSGI (gunicorn) as well
+threading.Thread(target=try_load_model, daemon=True).start()
+
 if __name__ == "__main__":
-    # Attempt model load in background thread (non-blocking start)
-    threading.Thread(target=try_load_model, daemon=True).start()
-    print("[INFO] Starting Grievance Analysis API on http://127.0.0.1:5000")
-    app.run(host="0.0.0.0", port=5000, debug=False, threaded=True)
+    port = int(os.environ.get("PORT", 5000))
+    print(f"[INFO] Starting Grievance Analysis API on port {port}...")
+    app.run(host="0.0.0.0", port=port, debug=False, threaded=True)

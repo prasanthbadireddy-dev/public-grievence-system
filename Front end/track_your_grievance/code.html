@@ -390,7 +390,7 @@
 </div>
 </footer>
 <script>
-        const API = 'http://127.0.0.1:5000/api';
+        const API = window.location.protocol === 'file:' ? 'http://127.0.0.1:5000/api' : '/api';
         const searchInput = document.getElementById('complaint-id');
         const searchBtn = document.querySelector('button.bg-secondary');
         const emptyStateSection = document.getElementById('empty-state-section');

@@ -401,7 +401,7 @@ tailwind.config = {
 
 <script>
 // ─── CONFIG ──────────────────────────────────────────────────
-const API = 'http://127.0.0.1:5000/api';
+const API = window.location.protocol === 'file:' ? 'http://127.0.0.1:5000/api' : '/api';
 let lastAnalysis = null;
 let analyzeDebounce = null;
 let uploadedFiles = [];

@@ -781,7 +781,7 @@
     });
 
         // ─── CONFIG & STATE ──────────────────────────────────────────
-        const API = 'http://127.0.0.1:5000/api';
+        const API = window.location.protocol === 'file:' ? 'http://127.0.0.1:5000/api' : '/api';
         let complaints = [];
         let stats = null;
         let selectedComplaintId = null;
@@ -856,7 +856,8 @@
                 evidenceContainer.innerHTML = `<p class="text-xs text-on-surface-variant italic flex items-center gap-1"><span class="material-symbols-outlined text-sm">hide_image</span> No evidence files uploaded with this complaint.</p>`;
             } else {
                 evidenceContainer.innerHTML = evidenceFiles.map(fname => {
-                    const url = `http://127.0.0.1:5000/api/uploads/${encodeURIComponent(fname)}`;
+                    const baseUpload = window.location.protocol === 'file:' ? 'http://127.0.0.1:5000' : '';
+                    const url = `${baseUpload}/api/uploads/${encodeURIComponent(fname)}`;
                     const ext = fname.split('.').pop().toLowerCase();
                     const isImage = ['jpg','jpeg','png','gif','webp'].includes(ext);
                     if (isImage) {

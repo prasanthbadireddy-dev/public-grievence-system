@@ -381,7 +381,7 @@
         });
 
         // Dynamic Stats integration with Flask Backend
-        const API = 'http://127.0.0.1:5000/api';
+        const API = window.location.protocol === 'file:' ? 'http://127.0.0.1:5000/api' : '/api';
         async function fetchStats() {
             try {
                 const res = await fetch(`${API}/stats`);
