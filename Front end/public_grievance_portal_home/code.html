@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Public Grievance Portal | Citizen Services</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-tint": "#465f88",
+                        "on-primary-container": "#87a0cd",
+                        "tertiary-container": "#323639",
+                        "primary": "#002046",
+                        "secondary": "#155fa8",
+                        "on-secondary-fixed-variant": "#004784",
+                        "on-error-container": "#93000a",
+                        "on-secondary-fixed": "#001c3a",
+                        "surface-variant": "#d9e3f4",
+                        "surface-container-high": "#dfe9fa",
+                        "on-tertiary-container": "#9b9fa2",
+                        "on-tertiary-fixed": "#181c1e",
+                        "secondary-container": "#76b0ff",
+                        "on-surface-variant": "#44474e",
+                        "surface-container-highest": "#d9e3f4",
+                        "primary-fixed": "#d6e3ff",
+                        "primary-fixed-dim": "#aec7f7",
+                        "tertiary": "#1d2123",
+                        "background": "#f8f9ff",
+                        "on-surface": "#121c28",
+                        "surface-dim": "#d1dbec",
+                        "outline-variant": "#c4c6cf",
+                        "on-secondary-container": "#00427b",
+                        "secondary-fixed": "#d4e3ff",
+                        "tertiary-fixed-dim": "#c3c7ca",
+                        "primary-container": "#1b365d",
+                        "inverse-on-surface": "#eaf1ff",
+                        "on-primary-fixed": "#001b3d",
+                        "surface-bright": "#f8f9ff",
+                        "surface-container-lowest": "#ffffff",
+                        "error": "#ba1a1a",
+                        "error-container": "#ffdad6",
+                        "surface-container": "#e5eeff",
+                        "secondary-fixed-dim": "#a5c8ff",
+                        "on-tertiary": "#ffffff",
+                        "on-error": "#ffffff",
+                        "on-primary-fixed-variant": "#2e476f",
+                        "on-background": "#121c28",
+                        "on-tertiary-fixed-variant": "#43474a",
+                        "inverse-primary": "#aec7f7",
+                        "surface-container-low": "#eef4ff",
+                        "surface": "#f8f9ff",
+                        "on-primary": "#ffffff",
+                        "tertiary-fixed": "#e0e3e6",
+                        "outline": "#74777f",
+                        "on-secondary": "#ffffff",
+                        "inverse-surface": "#27313e"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "container-max": "1280px",
+                        "base": "8px",
+                        "gutter": "24px",
+                        "margin-desktop": "64px",
+                        "margin-mobile": "16px"
+                    },
+                    "fontFamily": {
+                        "caption": ["Inter"],
+                        "body-md": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "display-lg": ["Inter"],
+                        "label-md": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "headline-lg-mobile": ["Inter"]
+                    },
+                    "fontSize": {
+                        "caption": ["12px", {"lineHeight": "16px", "fontWeight": "400"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                        "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                        "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "600"}],
+                        "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                        "headline-lg-mobile": ["28px", {"lineHeight": "36px", "fontWeight": "700"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .hero-pattern {
+            background-color: #f8f9ff;
+            background-image: radial-gradient(#d9e3f4 1px, transparent 1px);
+            background-size: 32px 32px;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(217, 227, 244, 0.5);
+        }
+        /* Google Translate Styling */
+        .goog-te-gadget-simple {
+            background-color: transparent !important;
+            border: 1px solid #c4c6cf !important;
+            padding: 4px 8px !important;
+            border-radius: 6px !important;
+            font-family: 'Inter', sans-serif !important;
+            font-size: 14px !important;
+        }
+        .goog-te-gadget-icon { display: none; }
+        .goog-te-banner-frame { display: none !important; }
+        body { top: 0 !important; }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md">
+<!-- TopNavBar -->
+<header class="bg-surface dark:bg-surface-container-highest border-b border-outline-variant dark:border-outline docked full-width top-0 z-50 sticky">
+<div class="flex justify-between items-center w-full px-base md:px-margin-desktop max-w-container-max mx-auto h-16">
+<div class="flex items-center gap-4">
+<span class="text-headline-md font-headline-md font-bold text-primary dark:text-primary-fixed">Public Grievance Portal</span>
+</div>
+    <nav class="hidden md:flex items-center gap-8">
+      <a class="text-secondary font-bold border-b-2 border-secondary pb-1 text-label-md font-label-md" href="/">Home</a>
+      <a class="text-on-surface-variant dark:text-surface-variant hover:text-primary transition-colors text-label-md font-label-md" href="/register">Register</a>
+      <a class="text-on-surface-variant dark:text-surface-variant hover:text-primary transition-colors text-label-md font-label-md" href="/track">Track Status</a>
+      <a class="text-on-surface-variant dark:text-surface-variant hover:text-primary transition-colors text-label-md font-label-md" href="/admin">Admin</a>
+    </nav>
+    <div class="flex items-center gap-4">
+      <div id="google_translate_element"></div>
+      <div class="hidden md:flex items-center gap-2">
+        <button class="p-2 hover:bg-surface-container-low dark:hover:bg-surface-container-high rounded-full transition-colors">
+          <span class="material-symbols-outlined text-on-surface-variant" data-icon="notifications">notifications</span>
+        </button>
+        <button class="p-2 hover:bg-surface-container-low dark:hover:bg-surface-container-high rounded-full transition-colors">
+          <span class="material-symbols-outlined text-on-surface-variant" data-icon="help">help</span>
+        </button>
+      </div>
+      <a href="/admin" class="bg-primary text-on-primary px-6 py-2 rounded-lg font-label-md text-label-md hover:opacity-90 transition-all active:scale-95 text-center flex items-center justify-center">
+        Sign In
+      </a>
+    </div>
+  </div>
+</header>
+<main>
+  <!-- Hero Section -->
+  <section class="hero-pattern py-20 px-margin-mobile md:px-margin-desktop">
+    <div class="max-w-container-max mx-auto grid md:grid-cols-2 gap-12 items-center">
+      <div class="space-y-6">
+        <div class="inline-flex items-center gap-2 px-3 py-1 bg-primary-fixed text-on-primary-fixed rounded-full text-caption font-caption">
+          <span class="material-symbols-outlined text-[16px]" data-icon="verified">verified</span>
+          Official Government Portal
+        </div>
+        <h1 class="text-headline-lg-mobile md:text-display-lg font-display-lg text-primary leading-tight">
+          Empowering Citizens Through <span class="text-secondary">Transparent Governance</span>
+        </h1>
+        <p class="text-body-lg font-body-lg text-on-surface-variant max-w-xl">
+          A faster, more transparent way to resolve public concerns. Our integrated platform connects you directly with department heads for efficient grievance redressal.
+        </p>
+        <div class="flex flex-col sm:flex-row gap-4 pt-4">
+          <a href="/register" class="flex items-center justify-center gap-2 bg-primary text-on-primary px-8 py-4 rounded-xl font-label-md text-label-md shadow-lg hover:shadow-xl transition-all hover:-translate-y-0.5 text-center">
+            <span class="material-symbols-outlined" data-icon="edit_note">edit_note</span>
+            Register Complaint
+          </a>
+          <a href="/track" class="flex items-center justify-center gap-2 border-2 border-primary text-primary px-8 py-4 rounded-xl font-label-md text-label-md hover:bg-primary-fixed transition-all text-center">
+            <span class="material-symbols-outlined" data-icon="track_changes">track_changes</span>
+            Track Complaint
+          </a>
+        </div>
+</div>
+<div class="relative">
+<div class="absolute -top-4 -left-4 w-24 h-24 bg-secondary-container rounded-full opacity-20 blur-2xl"></div>
+<div class="absolute -bottom-8 -right-8 w-48 h-48 bg-primary-container rounded-full opacity-10 blur-3xl"></div>
+<img alt="Professional team collaborating in a modern office" class="rounded-2xl shadow-2xl relative z-10 w-full aspect-[4/3] object-cover" data-alt="A professional government administrative office scene with diverse public officials working collaboratively in a bright, modern, and high-tech environment. The lighting is soft and natural, emphasizing a mood of efficiency and transparency. The color palette is dominated by professional blues and clean whites, reflecting an institutional but welcoming atmosphere with clean architectural lines." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDyz-Xc-FoBrF0hauL5nKj3e08eRZqdBm8dUQoYEcfzZTbVa6ptkrulAHC1n5UfvK9qhY3bs1-awOi7FDfweEb0Vc3p8VsTVouxeIgtKkchgiCz8hEaKomAhcNgemCnnhEGp3RqhqNJTWjMJOjEydR0nSOXmoRe6ogxy18nXHn76-2Am8J1KYD69NVNkvpcFK0yLLG50JrkwUOTExFM6RU7efWfU9f929YwfU7gGLuSYKwm7O0zSZZ4sEgmXp7LbnG5QbPVllkxOI4"/>
+</div>
+</div>
+</section>
+<!-- Stats Banner -->
+<section class="bg-primary text-on-primary py-12 px-margin-mobile md:px-margin-desktop">
+<div class="max-w-container-max mx-auto grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+<div class="space-y-2">
+<span id="stat-resolution" class="text-display-lg font-display-lg block">-</span>
+<span class="text-label-md font-label-md opacity-80 uppercase tracking-wider">Complaints Resolved</span>
+</div>
+<div class="space-y-2">
+<span id="stat-time" class="text-display-lg font-display-lg block">-</span>
+<span class="text-label-md font-label-md opacity-80 uppercase tracking-wider">Avg. Response Time</span>
+</div>
+<div class="space-y-2">
+<span id="stat-total" class="text-display-lg font-display-lg block">-</span>
+<span class="text-label-md font-label-md opacity-80 uppercase tracking-wider">Active Users</span>
+</div>
+<div class="space-y-2">
+<span id="stat-departments" class="text-display-lg font-display-lg block">-</span>
+<span class="text-label-md font-label-md opacity-80 uppercase tracking-wider">Departments</span>
+</div>
+</div>
+</section>
+<!-- Categories Bento Grid -->
+<section class="py-24 px-margin-mobile md:px-margin-desktop bg-surface">
+<div class="max-w-container-max mx-auto">
+<div class="text-center mb-16 space-y-4">
+<h2 class="text-headline-lg font-headline-lg text-primary">Grievance Categories</h2>
+<p class="text-body-md font-body-md text-on-surface-variant max-w-2xl mx-auto">
+                        Select a department to file your complaint. Your grievance will be automatically routed to the concerned jurisdictional officer.
+                    </p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6">
+<!-- Sanitation -->
+<div onclick="window.location.href='/register'" class="glass-card p-8 rounded-2xl hover:bg-secondary-container/10 transition-all cursor-pointer group flex flex-col gap-4">
+<div class="w-12 h-12 rounded-xl bg-surface-variant flex items-center justify-center text-primary group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-[32px]" data-icon="cleaning_services">cleaning_services</span>
+</div>
+<div>
+<h3 class="text-headline-md font-headline-md text-primary mb-2">Sanitation</h3>
+<p class="text-body-md font-body-md text-on-surface-variant">Garbage collection, street cleaning, and sewage management.</p>
+</div>
+</div>
+<!-- Water Supply -->
+<div onclick="window.location.href='/register'" class="glass-card p-8 rounded-2xl hover:bg-secondary-container/10 transition-all cursor-pointer group flex flex-col gap-4">
+<div class="w-12 h-12 rounded-xl bg-surface-variant flex items-center justify-center text-primary group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-[32px]" data-icon="water_drop">water_drop</span>
+</div>
+<div>
+<h3 class="text-headline-md font-headline-md text-primary mb-2">Water Supply</h3>
+<p class="text-body-md font-body-md text-on-surface-variant">Pipe leaks, water quality, and supply schedule issues.</p>
+</div>
+</div>
+<!-- Electricity -->
+<div onclick="window.location.href='/register'" class="glass-card p-8 rounded-2xl hover:bg-secondary-container/10 transition-all cursor-pointer group flex flex-col gap-4 lg:col-span-2">
+<div class="w-12 h-12 rounded-xl bg-surface-variant flex items-center justify-center text-primary group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-[32px]" data-icon="bolt">bolt</span>
+</div>
+<div class="grid md:grid-cols-2 gap-4">
+<div>
+<h3 class="text-headline-md font-headline-md text-primary mb-2">Electricity</h3>
+<p class="text-body-md font-body-md text-on-surface-variant">Power outages, street lighting, and faulty transformers.</p>
+</div>
+<div class="hidden md:block">
+<ul class="text-caption font-caption text-secondary space-y-2 mt-2">
+<li class="flex items-center gap-2"><span class="material-symbols-outlined text-[16px]" data-icon="check_circle">check_circle</span> 24/7 Response Team</li>
+<li class="flex items-center gap-2"><span class="material-symbols-outlined text-[16px]" data-icon="check_circle">check_circle</span> Real-time Grid Status</li>
+</ul>
+</div>
+</div>
+</div>
+<!-- Roads -->
+<div onclick="window.location.href='/register'" class="glass-card p-8 rounded-2xl hover:bg-secondary-container/10 transition-all cursor-pointer group flex flex-col gap-4 lg:col-span-2">
+<div class="w-12 h-12 rounded-xl bg-surface-variant flex items-center justify-center text-primary group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-[32px]" data-icon="add_road">add_road</span>
+</div>
+<div class="grid md:grid-cols-2 gap-4">
+<div>
+<h3 class="text-headline-md font-headline-md text-primary mb-2">Roads &amp; Traffic</h3>
+<p class="text-body-md font-body-md text-on-surface-variant">Potholes, broken signals, and road construction complaints.</p>
+</div>
+<div class="bg-surface-container-low p-4 rounded-xl flex items-center justify-center">
+<span class="text-label-md font-label-md text-primary">Map View Integrated</span>
+</div>
+</div>
+</div>
+<!-- Other Categories -->
+<div onclick="window.location.href='/register'" class="glass-card p-8 rounded-2xl hover:bg-secondary-container/10 transition-all cursor-pointer group flex flex-col gap-4">
+<div class="w-12 h-12 rounded-xl bg-surface-variant flex items-center justify-center text-primary group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-[32px]" data-icon="more_horiz">more_horiz</span>
+</div>
+<div>
+<h3 class="text-headline-md font-headline-md text-primary mb-2">Others</h3>
+<p class="text-body-md font-body-md text-on-surface-variant">Health, Education, Licensing, and other services.</p>
+</div>
+</div>
+<div onclick="window.location.href='/register'" class="bg-primary-container p-8 rounded-2xl flex flex-col justify-center items-center text-center text-on-primary-fixed-variant group cursor-pointer hover:bg-primary-container/90 transition-all">
+<span class="material-symbols-outlined text-[48px] mb-4 group-hover:rotate-12 transition-transform" data-icon="search">search</span>
+<h3 class="text-label-md font-label-md uppercase tracking-widest">View All Departments</h3>
+</div>
+</div>
+</div>
+</section>
+<!-- CTA Section -->
+<section class="py-24 px-margin-mobile md:px-margin-desktop">
+<div class="max-w-container-max mx-auto bg-surface-container-high rounded-3xl overflow-hidden shadow-xl border border-outline-variant">
+<div class="grid md:grid-cols-2">
+<div class="p-12 md:p-16 space-y-8">
+<h2 class="text-display-lg font-display-lg text-primary">Need immediate assistance?</h2>
+<p class="text-body-lg font-body-lg text-on-surface-variant">
+                            Our AI-powered grievance routing system ensures your voice reaches the right official within minutes. Track every step of the resolution process in real-time.
+                        </p>
+<div class="flex flex-col sm:flex-row gap-4">
+<a href="/register" class="inline-block text-center bg-secondary text-on-secondary px-8 py-4 rounded-xl font-label-md text-label-md shadow-md hover:bg-on-secondary-fixed-variant transition-all">
+                                Get Started Now
+</a>
+<button class="flex items-center justify-center gap-2 text-primary font-label-md text-label-md hover:underline">
+                                How it works
+                                <span class="material-symbols-outlined" data-icon="arrow_forward">arrow_forward</span>
+</button>
+</div>
+</div>
+<div class="hidden md:block relative h-full">
+<img alt="Administrative professional helping a citizen" class="absolute inset-0 w-full h-full object-cover" data-alt="A clean, minimalist close-up image of a person's hands using a tablet displaying a sleek dashboard with data charts. The environment is a bright, professional workspace with soft focus background elements of architectural glass and greenery. The aesthetic is high-key, emphasizing precision, technology, and clarity in a modern institutional setting using cool blues and crisp whites." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAcrWNBQUhgqxzajNIMlNx53wAcSyEInsj7O01qXvcPJ8tZDQrsUeIQQgzV2F3iE17itgQblzFjOZxKVhSMH_o3rR4WNpACpFDDMpXPq3W_MI6YZCO2mG-7Q3HceAB82-KHVSOWsvBj0qyGIulXLLcLm9_ha8UzGfKGOr_oTl4hDN0FIAUvtnN7VlvUVSqlcPlnNb3tndb2vEHTOuDL73Sl8yWIxzuHkh1NCasYK0ypWd2vAVA6XQJjgUfRbxxzKO4o6sdTeMujyLU"/>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="bg-tertiary dark:bg-tertiary-container text-on-tertiary full-width bottom">
+<div class="w-full py-gutter px-margin-mobile md:px-margin-desktop flex flex-col md:flex-row justify-between items-start gap-12 max-w-container-max mx-auto">
+<div class="space-y-4 max-w-sm">
+<span class="text-label-md font-label-md font-bold text-on-tertiary">Public Grievance Portal</span>
+<p class="text-caption font-caption opacity-70">
+                    A centralized platform for citizens to voice concerns, track resolutions, and ensure government accountability through digital innovation.
+                </p>
+<div class="flex gap-4">
+<a class="hover:text-secondary-container transition-colors" href="#"><span class="material-symbols-outlined" data-icon="public">public</span></a>
+<a class="hover:text-secondary-container transition-colors" href="#"><span class="material-symbols-outlined" data-icon="alternate_email">alternate_email</span></a>
+<a class="hover:text-secondary-container transition-colors" href="#"><span class="material-symbols-outlined" data-icon="call">call</span></a>
+</div>
+</div>
+<div class="grid grid-cols-2 sm:grid-cols-3 gap-8">
+<div class="space-y-4">
+<h4 class="font-bold text-label-md uppercase tracking-wider opacity-50">Portal</h4>
+<ul class="space-y-2 text-caption font-caption">
+<li><a class="hover:underline" href="#">About Us</a></li>
+<li><a class="hover:underline" href="#">Statistics</a></li>
+<li><a class="hover:underline" href="#">Departments</a></li>
+<li><a class="hover:underline" href="#">FAQs</a></li>
+</ul>
+</div>
+<div class="space-y-4">
+<h4 class="font-bold text-label-md uppercase tracking-wider opacity-50">Support</h4>
+<ul class="space-y-2 text-caption font-caption">
+<li><a class="hover:underline" href="#">Help Desk</a></li>
+<li><a class="hover:underline" href="#">Contact Support</a></li>
+<li><a class="hover:underline" href="#">Tutorials</a></li>
+<li><a class="hover:underline" href="#">API Docs</a></li>
+</ul>
+</div>
+<div class="space-y-4 col-span-2 sm:col-span-1">
+<h4 class="font-bold text-label-md uppercase tracking-wider opacity-50">Contact</h4>
+<p class="text-caption font-caption">
+                        123 Government Avenue,<br/>
+                        Digital City, ST 56789<br/>
+                        Toll Free: 1800-123-4567
+                    </p>
+</div>
+</div>
+</div>
+<div class="border-t border-tertiary-container/30">
+<div class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-8 flex flex-col md:flex-row justify-between items-center gap-4">
+<p class="text-caption font-caption opacity-60">© 2024 Government of Information Technology. All rights reserved.</p>
+<div class="flex gap-6 text-caption font-caption opacity-60">
+<a class="hover:text-on-tertiary transition-all" href="#">Privacy Policy</a>
+<a class="hover:text-on-tertiary transition-all" href="#">Terms of Service</a>
+<a class="hover:text-on-tertiary transition-all" href="#">Accessibility Statement</a>
+</div>
+</div>
+</div>
+</footer>
+<script>
+        // Micro-interactions for hovering over cards
+        document.querySelectorAll('.glass-card').forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                card.classList.add('shadow-lg', '-translate-y-1');
+            });
+            card.addEventListener('mouseleave', () => {
+                card.classList.remove('shadow-lg', '-translate-y-1');
+            });
+        });
+
+        // Dynamic Stats integration with Flask Backend
+        const API = 'http://127.0.0.1:5000/api';
+        async function fetchStats() {
+            try {
+                const res = await fetch(`${API}/stats`);
+                if (!res.ok) throw new Error('API error');
+                const data = await res.json();
+                
+                // Update stats banner dynamically
+                if (data.resolution_rate !== undefined) {
+                    document.getElementById('stat-resolution').textContent = `${data.resolution_rate}%`;
+                }
+                if (data.total !== undefined) {
+                    // If total complaints is > 0, show exact number
+                    if (data.total > 0) {
+                        document.getElementById('stat-total').textContent = data.total;
+                    }
+                }
+                if (data.by_department !== undefined) {
+                    const deptsCount = Object.keys(data.by_department).length;
+                    if (deptsCount > 0) {
+                        document.getElementById('stat-departments').textContent = `${deptsCount}+`;
+                    }
+                }
+            } catch (e) {
+                console.log('Backend server is offline or stats API failed. Using default mock statistics.', e);
+            }
+        }
+        fetchStats();
+    </script>
+    <!-- Google Translate Widget -->
+    <script type="text/javascript">
+        function googleTranslateElementInit() {
+            new google.translate.TranslateElement({
+                pageLanguage: 'en',
+                includedLanguages: 'en,hi,te',
+                layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+            }, 'google_translate_element');
+        }
+    </script>
+    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+</body></html>

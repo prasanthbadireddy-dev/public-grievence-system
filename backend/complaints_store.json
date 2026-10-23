@@ -1,0 +1,65 @@
+[
+  {
+    "complaint_id": "PGC-2026-192B91E7",
+    "name": "Doppa Vennela",
+    "phone": "8096202538",
+    "email": "you@email.com",
+    "address": "Gajuwaka,Visakhapatnam",
+    "description": "\"The street pole wiring near building crossroad has loose sparks flying. A transformer blew out yesterday and there is no electricity on our block.\"",
+    "evidence": [],
+    "category": "Electricity",
+    "priority": "High",
+    "sentiment": "Neutral",
+    "department": "Electricity Board",
+    "confidence": 0.8,
+    "status": "Closed",
+    "created_at": "2026-05-27T06:30:04.978637Z",
+    "timeline": [
+      {
+        "stage": "Registered",
+        "date": "2026-05-27T06:30:04.979020Z",
+        "note": "Complaint registered and AI analysis completed."
+      },
+      {
+        "stage": "Under Review",
+        "date": "2026-05-27T06:58:16.955366Z",
+        "note": "Ground inspection under progress"
+      },
+      {
+        "stage": "Closed",
+        "date": "2026-05-28T09:07:10.725024Z",
+        "note": "done with the issue"
+      }
+    ],
+    "possible_duplicates": []
+  },
+  {
+    "complaint_id": "PGC-2026-63399B7C",
+    "name": "Doppa Vennela",
+    "phone": "8096202538",
+    "email": "doppavennela10@gmail.com",
+    "address": "gajuwaka,Vizag",
+    "description": "Garbage not collected in our colony",
+    "evidence": [],
+    "category": "Sanitation",
+    "priority": "Medium",
+    "sentiment": "Neutral",
+    "department": "Municipal Corporation",
+    "confidence": 0.55,
+    "status": "Under Review",
+    "created_at": "2026-05-28T09:03:12.308113Z",
+    "timeline": [
+      {
+        "stage": "Registered",
+        "date": "2026-05-28T09:03:12.308321Z",
+        "note": "Complaint registered and AI analysis completed."
+      },
+      {
+        "stage": "Under Review",
+        "date": "2026-05-28T09:04:04.612313Z",
+        "note": "processing"
+      }
+    ],
+    "possible_duplicates": []
+  }
+]

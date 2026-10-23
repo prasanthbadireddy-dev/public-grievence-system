@@ -1,0 +1,921 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Register Grievance | AI-Powered Public Grievance Portal</title>
+<meta name="description" content="Submit your civic complaint. Our AI instantly classifies your grievance, detects priority, analyses sentiment and checks for duplicates."/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<script>
+tailwind.config = {
+  darkMode:"class",
+  theme:{extend:{
+    colors:{
+      "primary":"#002046","secondary":"#155fa8","surface":"#f8f9ff",
+      "surface-container-lowest":"#ffffff","surface-container-low":"#eef4ff",
+      "surface-container":"#e5eeff","surface-variant":"#d9e3f4",
+      "on-surface":"#121c28","on-surface-variant":"#44474e",
+      "outline-variant":"#c4c6cf","outline":"#74777f",
+      "secondary-container":"#76b0ff","on-secondary-container":"#00427b",
+      "primary-container":"#1b365d","on-primary-fixed":"#001b3d",
+      "error":"#ba1a1a","error-container":"#ffdad6","on-error-container":"#93000a",
+      "tertiary":"#1d2123","on-tertiary":"#ffffff","on-primary":"#ffffff","on-secondary":"#ffffff",
+      "background":"#f8f9ff","on-background":"#121c28",
+    },
+    fontFamily:{"sans":["Inter","sans-serif"]},
+  }}
+}
+</script>
+<style>
+  *{font-family:'Inter',sans-serif;}
+  .material-symbols-outlined{font-variation-settings:'FILL' 0,'wght' 400,'GRAD' 0,'opsz' 24;vertical-align:middle;}
+  @keyframes fadeSlideIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+  @keyframes pulse-ring{0%,100%{box-shadow:0 0 0 0 rgba(21,95,168,.35)}50%{box-shadow:0 0 0 8px rgba(21,95,168,0)}}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  .fade-in{animation:fadeSlideIn .45s ease forwards;}
+  .ai-panel{animation:fadeSlideIn .3s ease forwards;}
+  .spinner{animation:spin 1s linear infinite;display:inline-block;}
+  .priority-critical{background:#ffdad6;color:#93000a;border-color:#ba1a1a;}
+  .priority-high{background:#fff3e0;color:#e65100;border-color:#ff9800;}
+  .priority-medium{background:#e3f2fd;color:#1565c0;border-color:#2196f3;}
+  .priority-low{background:#e8f5e9;color:#2e7d32;border-color:#4caf50;}
+  .sentiment-negative{background:#fce4ec;color:#880e4f;}
+  .sentiment-neutral{background:#f3e5f5;color:#4a148c;}
+  .sentiment-positive{background:#e8f5e9;color:#1b5e20;}
+  .step-circle{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px;flex-shrink:0;}
+  .bar-fill{height:6px;border-radius:3px;background:linear-gradient(90deg,#155fa8,#76b0ff);transition:width .6s ease;}
+  .dup-card{border-left:4px solid #ff9800;background:#fff8f0;}
+  input:focus,textarea:focus,select:focus{outline:none;border-color:#155fa8;box-shadow:0 0 0 3px rgba(21,95,168,.15);}
+  /* Image Preview Styles */
+  .preview-thumb { position: relative; display: inline-flex; flex-direction: column; align-items: center; }
+  .preview-thumb img { width: 80px; height: 80px; object-fit: cover; border-radius: 10px; border: 2px solid #c4c6cf; transition: border-color .2s; }
+  .preview-thumb img:hover { border-color: #155fa8; }
+  .preview-thumb .pdf-thumb { width: 80px; height: 80px; border-radius: 10px; border: 2px solid #c4c6cf; background: #eef4ff; display: flex; flex-direction: column; align-items: center; justify-content: center; font-size: 11px; font-weight: 600; color: #155fa8; gap: 4px; }
+  .preview-thumb .remove-btn { position: absolute; top: -6px; right: -6px; width: 20px; height: 20px; background: #ba1a1a; color: white; border-radius: 50%; border: none; cursor: pointer; font-size: 12px; display: flex; align-items: center; justify-content: center; line-height: 1; font-weight: bold; transition: background .15s; }
+  .preview-thumb .remove-btn:hover { background: #93000a; }
+  .preview-thumb .file-label { font-size: 10px; color: #44474e; margin-top: 4px; max-width: 80px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; text-align: center; }
+  /* Google Translate Styling */
+  .goog-te-gadget-simple {
+      background-color: transparent !important;
+      border: 1px solid #c4c6cf !important;
+      padding: 4px 8px !important;
+      border-radius: 6px !important;
+      font-family: 'Inter', sans-serif !important;
+      font-size: 14px !important;
+  }
+  .goog-te-gadget-icon { display: none; }
+  .goog-te-banner-frame { display: none !important; }
+  body { top: 0 !important; }
+</style>
+</head>
+<body class="bg-background text-on-background min-h-screen flex flex-col">
+
+<!-- ── NAV ── -->
+<header class="bg-surface sticky top-0 z-50 border-b border-outline-variant shadow-sm">
+  <div class="flex justify-between items-center w-full px-4 md:px-16 max-w-screen-xl mx-auto h-16">
+    <a href="/" class="text-xl font-bold text-primary tracking-tight">⚖ Grievance Portal</a>
+    <nav class="hidden md:flex items-center gap-8">
+      <a href="/" class="text-on-surface-variant hover:text-primary transition-colors text-sm font-medium">Home</a>
+      <a href="/register" class="text-secondary font-bold border-b-2 border-secondary pb-0.5 text-sm">Register</a>
+      <a href="/track" class="text-on-surface-variant hover:text-primary transition-colors text-sm font-medium">Track Status</a>
+      <a href="/admin" class="text-on-surface-variant hover:text-primary transition-colors text-sm font-medium">Admin</a>
+    </nav>
+    <div class="flex items-center gap-4">
+      <div id="google_translate_element"></div>
+      <a href="/track" class="bg-primary text-white px-5 py-2 rounded-lg text-sm font-semibold hover:opacity-90 transition-all">Track Complaint</a>
+    </div>
+  </div>
+</header>
+
+<main class="flex-1 max-w-screen-xl mx-auto w-full px-4 md:px-16 py-10">
+
+  <!-- Breadcrumb -->
+  <nav class="flex items-center gap-2 mb-8 text-sm text-on-surface-variant">
+    <a href="../public_grievance_portal_home/code.html" class="hover:text-primary">Home</a>
+    <span class="material-symbols-outlined text-base">chevron_right</span>
+    <span class="font-semibold text-primary">Register Grievance</span>
+  </nav>
+
+  <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+
+    <!-- LEFT SIDEBAR -->
+    <div class="lg:col-span-4 flex flex-col gap-5">
+      <!-- Info card -->
+      <div class="bg-primary text-white p-7 rounded-2xl shadow-lg">
+        <div class="w-12 h-12 bg-white/15 rounded-xl flex items-center justify-center mb-4">
+          <span class="material-symbols-outlined text-3xl">smart_toy</span>
+        </div>
+        <h1 class="text-2xl font-bold mb-2">AI-Powered Analysis</h1>
+        <p class="text-white/80 text-sm leading-relaxed mb-5">
+          As you describe your grievance, our NLP engine instantly classifies it, assigns priority, reads your sentiment, and checks for duplicates — all in real time.
+        </p>
+        <div class="grid grid-cols-2 gap-3">
+          <div class="bg-white/10 rounded-xl p-3 text-center">
+            <span class="material-symbols-outlined text-2xl">category</span>
+            <p class="text-xs mt-1 font-medium">Auto-classify</p>
+          </div>
+          <div class="bg-white/10 rounded-xl p-3 text-center">
+            <span class="material-symbols-outlined text-2xl">priority_high</span>
+            <p class="text-xs mt-1 font-medium">Priority score</p>
+          </div>
+          <div class="bg-white/10 rounded-xl p-3 text-center">
+            <span class="material-symbols-outlined text-2xl">sentiment_dissatisfied</span>
+            <p class="text-xs mt-1 font-medium">Sentiment</p>
+          </div>
+          <div class="bg-white/10 rounded-xl p-3 text-center">
+            <span class="material-symbols-outlined text-2xl">content_copy</span>
+            <p class="text-xs mt-1 font-medium">Dup. detection</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Checklist -->
+      <div class="bg-surface-container-low border border-outline-variant rounded-2xl p-6">
+        <h3 class="text-sm font-bold text-primary uppercase tracking-wider mb-4">Before You Start</h3>
+        <ul class="space-y-3">
+          <li class="flex items-start gap-3 text-sm">
+            <span class="material-symbols-outlined text-secondary text-lg mt-0.5">check_circle</span>
+            Keep your contact details handy for OTP verification.
+          </li>
+          <li class="flex items-start gap-3 text-sm">
+            <span class="material-symbols-outlined text-secondary text-lg mt-0.5">check_circle</span>
+            Describe the issue clearly — location, date, nature of problem.
+          </li>
+          <li class="flex items-start gap-3 text-sm">
+            <span class="material-symbols-outlined text-secondary text-lg mt-0.5">check_circle</span>
+            Photos or PDFs as evidence speed up resolution (max 5 MB each).
+          </li>
+        </ul>
+      </div>
+
+      <!-- AI Analysis Live Panel -->
+      <div id="ai-panel" class="hidden ai-panel border border-outline-variant rounded-2xl overflow-hidden shadow-sm">
+        <div class="bg-gradient-to-r from-primary to-secondary text-white px-5 py-3 flex items-center gap-2">
+          <span class="material-symbols-outlined text-base">auto_awesome</span>
+          <span class="font-bold text-sm tracking-wide">LIVE AI ANALYSIS</span>
+          <span id="ai-spinner" class="ml-auto spinner material-symbols-outlined text-base hidden">progress_activity</span>
+        </div>
+        <div class="bg-white p-5 space-y-4">
+
+          <!-- Category -->
+          <div>
+            <p class="text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-1">Category Detected</p>
+            <div class="flex items-center gap-2">
+              <span class="material-symbols-outlined text-secondary text-xl" id="ai-cat-icon">category</span>
+              <span id="ai-category" class="font-bold text-primary text-base">—</span>
+              <span id="ai-confidence" class="ml-auto text-xs bg-surface-container-low border border-outline-variant px-2 py-0.5 rounded-full font-semibold"></span>
+            </div>
+            <!-- Top-3 bars -->
+            <div id="ai-bars" class="mt-3 space-y-1.5"></div>
+          </div>
+
+          <hr class="border-outline-variant"/>
+
+          <!-- Priority -->
+          <div>
+            <p class="text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-2">Priority Level</p>
+            <div id="ai-priority-badge" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-bold border">
+              <span class="material-symbols-outlined text-base">flag</span>
+              <span id="ai-priority">—</span>
+            </div>
+          </div>
+
+          <hr class="border-outline-variant"/>
+
+          <!-- Sentiment -->
+          <div>
+            <p class="text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-2">Sentiment Tone</p>
+            <div id="ai-sentiment-badge" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-semibold">
+              <span class="material-symbols-outlined text-base" id="ai-sent-icon">mood</span>
+              <span id="ai-sentiment">—</span>
+            </div>
+          </div>
+
+          <hr class="border-outline-variant"/>
+
+          <!-- Department routing -->
+          <div>
+            <p class="text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-1">Routed Department</p>
+            <div class="flex items-center gap-2 text-sm">
+              <span class="material-symbols-outlined text-primary text-lg">account_balance</span>
+              <span id="ai-department" class="font-semibold text-on-surface">—</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Duplicate Warning -->
+      <div id="dup-panel" class="hidden ai-panel">
+        <div class="dup-card rounded-2xl p-5 border border-orange-200">
+          <div class="flex items-center gap-2 mb-3">
+            <span class="material-symbols-outlined text-orange-600 text-xl">warning</span>
+            <span class="font-bold text-orange-800">Similar Complaint Found</span>
+          </div>
+          <div id="dup-list" class="space-y-3"></div>
+          <p class="text-xs text-orange-700 mt-3">Check existing complaints before submitting to avoid duplication.</p>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- RIGHT: FORM -->
+    <div class="lg:col-span-8 bg-white border border-outline-variant rounded-2xl shadow-sm overflow-hidden" id="form-container">
+
+      <!-- ── SUCCESS STATE ── -->
+      <div id="success-state" class="hidden flex-col items-center text-center py-16 px-8 fade-in">
+        <div class="w-24 h-24 bg-green-50 rounded-full flex items-center justify-center mb-6 shadow-inner border-4 border-green-200">
+          <span class="material-symbols-outlined text-5xl text-green-600" style="font-variation-settings:'FILL' 1;">check_circle</span>
+        </div>
+        <h2 class="text-3xl font-bold text-primary mb-2">✅ Complaint Submitted Successfully</h2>
+        <p class="text-on-surface-variant max-w-md mb-8">Your complaint has been analysed by our AI and forwarded to the relevant department. Track real-time updates with your ID.</p>
+        
+        <div class="bg-surface-container-low p-6 rounded-2xl border-2 border-dashed border-secondary/40 mb-6 w-full max-w-sm space-y-4">
+          <div>
+            <p class="text-xs text-on-surface-variant uppercase tracking-widest mb-1">Complaint ID</p>
+            <p class="text-2xl font-black text-primary" id="generated-id">—</p>
+          </div>
+          <div id="notification-status-container" class="pt-2 border-t border-secondary/20 space-y-1.5 hidden">
+            <p id="email-status-text" class="text-sm font-semibold text-green-700 flex items-center justify-center gap-1 hidden">
+              <span class="material-symbols-outlined text-[18px]">mark_email_read</span> Email Notification: Sent Successfully
+            </p>
+            <p id="sms-status-text" class="text-sm font-semibold text-green-700 flex items-center justify-center gap-1 hidden">
+              <span class="material-symbols-outlined text-[18px]">sms</span> SMS Notification: Sent Successfully
+            </p>
+          </div>
+        </div>
+
+        <!-- AI Summary on success -->
+        <div id="success-ai-summary" class="bg-gradient-to-br from-primary/5 to-secondary/5 border border-outline-variant rounded-2xl p-5 text-left max-w-md w-full mb-8 space-y-3">
+          <p class="font-bold text-sm text-primary uppercase tracking-wider">AI Classification Summary</p>
+          <div class="grid grid-cols-2 gap-3 text-sm">
+            <div><p class="text-xs text-on-surface-variant">Category</p><p id="suc-category" class="font-semibold text-on-surface">—</p></div>
+            <div><p class="text-xs text-on-surface-variant">Priority</p><p id="suc-priority" class="font-semibold text-on-surface">—</p></div>
+            <div><p class="text-xs text-on-surface-variant">Sentiment</p><p id="suc-sentiment" class="font-semibold text-on-surface">—</p></div>
+            <div><p class="text-xs text-on-surface-variant">Department</p><p id="suc-department" class="font-semibold text-on-surface">—</p></div>
+          </div>
+        </div>
+
+        <div class="flex flex-wrap gap-4 justify-center">
+          <a href="../track_your_grievance/code.html" id="track-link" class="bg-primary text-white px-6 py-3 rounded-xl font-semibold hover:opacity-90 transition-all flex items-center gap-2">
+            <span class="material-symbols-outlined text-[18px]">my_location</span> Track Complaint
+          </a>
+          <button onclick="window.print()" class="border border-outline text-primary px-6 py-3 rounded-xl font-semibold hover:bg-surface-container transition-all flex items-center gap-2">
+            <span class="material-symbols-outlined text-[18px]">download</span> Download Receipt
+          </button>
+          <a href="/" class="border border-outline text-primary px-6 py-3 rounded-xl font-semibold hover:bg-surface-container transition-all flex items-center gap-2">
+            <span class="material-symbols-outlined text-[18px]">home</span> Return to Dashboard
+          </a>
+        </div>
+      </div>
+
+      <!-- ── FORM ── -->
+      <form id="grievance-form" class="p-8 space-y-10">
+
+        <!-- Step 1: Personal Details -->
+        <section>
+          <div class="flex items-center gap-3 mb-6">
+            <span class="step-circle bg-primary text-white">1</span>
+            <h2 class="text-xl font-bold text-primary">Personal Details</h2>
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+            <div class="space-y-1.5">
+              <label class="block text-sm font-semibold text-on-surface" for="name">Full Name <span class="text-error">*</span></label>
+              <input id="name" type="text" placeholder="e.g. Rajesh Kumar" required class="w-full border border-outline-variant rounded-xl bg-surface py-3 px-4 text-sm transition-all"/>
+            </div>
+            <div class="space-y-1.5">
+              <label class="block text-sm font-semibold text-on-surface" for="phone">Phone Number <span class="text-error">*</span></label>
+              <input id="phone" type="tel" placeholder="+91 98765 43210" required class="w-full border border-outline-variant rounded-xl bg-surface py-3 px-4 text-sm transition-all"/>
+            </div>
+            <div class="space-y-1.5 md:col-span-2">
+              <label class="block text-sm font-semibold text-on-surface" for="email">Email Address <span class="text-error">*</span></label>
+              <input id="email" type="email" placeholder="you@example.com" required class="w-full border border-outline-variant rounded-xl bg-surface py-3 px-4 text-sm transition-all"/>
+            </div>
+          </div>
+        </section>
+
+        <hr class="border-outline-variant"/>
+
+        <!-- Step 2: Location -->
+        <section>
+          <div class="flex items-center gap-3 mb-6">
+            <span class="step-circle bg-primary text-white">2</span>
+            <h2 class="text-xl font-bold text-primary">Incident Location</h2>
+          </div>
+          <div class="space-y-1.5">
+            <label class="block text-sm font-semibold text-on-surface" for="address">Full Address / Location Details <span class="text-error">*</span></label>
+            <div class="relative">
+              <textarea id="address" rows="3" required placeholder="Street name, landmark, ward number, city..." class="w-full border border-outline-variant rounded-xl bg-surface py-3 px-4 pr-12 text-sm transition-all"></textarea>
+              <button type="button" id="geolocate-btn" title="Detect my location" class="absolute right-3 top-3 text-secondary hover:text-primary transition-colors p-1 rounded-lg hover:bg-secondary/10">
+                <span class="material-symbols-outlined text-xl">my_location</span>
+              </button>
+            </div>
+            <p id="geo-status" class="text-xs text-on-surface-variant hidden"></p>
+          </div>
+        </section>
+
+        <hr class="border-outline-variant"/>
+
+        <!-- Step 3: Complaint Details -->
+        <section>
+          <div class="flex items-center gap-3 mb-6">
+            <span class="step-circle bg-primary text-white">3</span>
+            <h2 class="text-xl font-bold text-primary">Complaint Details</h2>
+          </div>
+
+          <div class="space-y-5">
+            <div class="space-y-1.5">
+              <div class="flex justify-between items-center mb-2">
+                <label class="block text-sm font-semibold text-on-surface" for="description">Describe the Issue <span class="text-error">*</span></label>
+                <div class="flex items-center gap-2">
+                  <select id="dictation-lang" class="text-xs border border-outline-variant rounded-lg bg-surface px-2 py-1 focus:ring-secondary focus:border-secondary outline-none">
+                    <option value="en-IN">English (India)</option>
+                    <option value="hi-IN">Hindi</option>
+                    <option value="te-IN">Telugu</option>
+                  </select>
+                  <button type="button" id="dictation-btn" class="flex items-center gap-1 bg-surface-variant text-on-surface px-3 py-1 rounded-lg text-xs font-bold hover:brightness-95 transition-all">
+                    <span class="material-symbols-outlined text-sm">mic</span> Start Dictation
+                  </button>
+                </div>
+              </div>
+              <div class="flex justify-end items-center mb-1">
+                <span id="char-count" class="text-xs text-on-surface-variant">0 / 2000</span>
+              </div>
+              <textarea id="description" rows="6" required maxlength="2000"
+                placeholder="Describe the problem in detail — nature of issue, how long it has been occurring, any dangers it poses, exact location details, prior complaints..."
+                class="w-full border border-outline-variant rounded-xl bg-surface py-3 px-4 text-sm transition-all resize-none"></textarea>
+              <p class="text-xs text-on-surface-variant">💡 More detail = better AI classification + faster resolution.</p>
+            </div>
+
+            <!-- Evidence Upload -->
+            <div class="space-y-1.5">
+              <label class="block text-sm font-semibold text-on-surface">Evidence Upload <span class="text-xs font-normal text-on-surface-variant">(optional, max 5 MB each)</span></label>
+              <div id="drop-zone" class="border-2 border-dashed border-outline-variant rounded-xl p-8 text-center hover:bg-surface-container-low transition-all cursor-pointer group">
+                <input type="file" id="file-upload" class="hidden" accept="image/*,.pdf" multiple/>
+                <span class="material-symbols-outlined text-5xl text-on-surface-variant group-hover:text-secondary transition-colors block mb-2">cloud_upload</span>
+                <p class="text-sm font-semibold text-on-surface">Drop files here or <span class="text-secondary">browse</span></p>
+                <p class="text-xs text-on-surface-variant mt-1">JPG, PNG, PDF — up to 5 MB, max 3 files</p>
+              </div>
+              <!-- Image Previews -->
+              <div id="file-previews" class="flex flex-wrap gap-3 mt-3"></div>
+              <!-- File name chips (kept for non-image files) -->
+              <div id="file-list" class="flex flex-wrap gap-2 mt-2"></div>
+            </div>
+          </div>
+        </section>
+
+        <hr class="border-outline-variant"/>
+
+        <!-- Submit -->
+        <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-5 pt-1">
+          <label class="flex items-start gap-3 cursor-pointer text-sm text-on-surface-variant">
+            <input type="checkbox" id="terms" required class="mt-0.5 rounded text-secondary focus:ring-secondary"/>
+            <span>I certify that the information provided is accurate and true to the best of my knowledge.</span>
+          </label>
+          <button type="submit" id="submit-btn"
+            class="flex-shrink-0 bg-secondary text-white px-10 py-4 rounded-xl font-bold text-sm shadow-lg hover:shadow-xl hover:scale-[1.02] active:scale-95 transition-all flex items-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed">
+            Submit Grievance
+            <span class="material-symbols-outlined text-lg">send</span>
+          </button>
+        </div>
+
+      </form>
+    </div>
+  </div>
+</main>
+
+<!-- Footer -->
+<footer class="bg-primary text-white mt-12">
+  <div class="max-w-screen-xl mx-auto px-4 md:px-16 py-8 flex flex-col md:flex-row justify-between items-center gap-4">
+    <span class="font-bold">⚖ Public Grievance Portal</span>
+    <p class="text-xs text-white/60">© 2024 Government of Information Technology. All rights reserved.</p>
+    <div class="flex gap-6 text-xs text-white/70">
+      <a href="#" class="hover:text-white">Privacy Policy</a>
+      <a href="#" class="hover:text-white">Terms of Service</a>
+      <a href="#" class="hover:text-white">Contact Us</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+// ─── CONFIG ──────────────────────────────────────────────────
+const API = 'http://127.0.0.1:5000/api';
+let lastAnalysis = null;
+let analyzeDebounce = null;
+let uploadedFiles = [];
+
+// ─── ICON MAP ────────────────────────────────────────────────
+const CAT_ICONS = {
+  'Electricity':'bolt','Sanitation':'delete_sweep','Water Supply':'water_drop',
+  'Roads & Infrastructure':'add_road','Public Healthcare':'local_hospital',
+  'Public Safety':'local_police','Public Infrastructure':'apartment',
+  'Economics':'account_balance','Violence':'gavel','Other':'help_outline'
+};
+const PRIORITY_CLASSES = {
+  'Critical':'priority-critical','High':'priority-high',
+  'Medium':'priority-medium','Low':'priority-low'
+};
+const SENTIMENT_ICONS = {
+  'Very Negative':'sentiment_very_dissatisfied','Negative':'sentiment_dissatisfied',
+  'Neutral':'sentiment_neutral','Positive':'sentiment_satisfied'
+};
+const SENTIMENT_CLASSES = {
+  'Very Negative':'sentiment-negative','Negative':'sentiment-negative',
+  'Neutral':'sentiment-neutral','Positive':'sentiment-positive'
+};
+
+// ─── ANALYSIS ────────────────────────────────────────────────
+async function analyzeText(text) {
+  if (text.trim().length < 20) {
+    document.getElementById('ai-panel').classList.add('hidden');
+    return;
+  }
+  document.getElementById('ai-panel').classList.remove('hidden');
+  document.getElementById('ai-spinner').classList.remove('hidden');
+
+  try {
+    const res = await fetch(`${API}/analyze`, {
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({text, check_duplicates: true})
+    });
+    if (!res.ok) throw new Error('API error');
+    const data = await res.json();
+    lastAnalysis = data;
+    renderAnalysis(data);
+    renderDuplicates(data.duplicates || []);
+  } catch(e) {
+    // Silently fail — server might not be running
+    document.getElementById('ai-spinner').classList.add('hidden');
+  }
+}
+
+function renderAnalysis(data) {
+  document.getElementById('ai-spinner').classList.add('hidden');
+
+  // Category
+  const cat = data.category || '—';
+  document.getElementById('ai-category').textContent = cat;
+  document.getElementById('ai-cat-icon').textContent = CAT_ICONS[cat] || 'category';
+  const confPct = Math.round((data.confidence || 0) * 100);
+  document.getElementById('ai-confidence').textContent = `${confPct}% confidence`;
+
+  // Category bars
+  const barsEl = document.getElementById('ai-bars');
+  barsEl.innerHTML = '';
+  (data.top_categories || []).forEach(c => {
+    const pct = Math.round(c.score * 100);
+    barsEl.innerHTML += `
+      <div>
+        <div class="flex justify-between text-xs mb-0.5">
+          <span class="text-on-surface-variant">${c.label}</span>
+          <span class="font-semibold text-primary">${pct}%</span>
+        </div>
+        <div class="w-full bg-surface-container rounded-full h-1.5">
+          <div class="bar-fill" style="width:${pct}%"></div>
+        </div>
+      </div>`;
+  });
+
+  // Priority
+  const pri = data.priority || 'Medium';
+  const priBadge = document.getElementById('ai-priority-badge');
+  priBadge.className = `inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-bold border ${PRIORITY_CLASSES[pri] || 'priority-medium'}`;
+  document.getElementById('ai-priority').textContent = pri;
+
+  // Sentiment
+  const sent = data.sentiment || 'Neutral';
+  const sentBadge = document.getElementById('ai-sentiment-badge');
+  sentBadge.className = `inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-semibold ${SENTIMENT_CLASSES[sent] || 'sentiment-neutral'}`;
+  document.getElementById('ai-sentiment').textContent = sent;
+  document.getElementById('ai-sent-icon').textContent = SENTIMENT_ICONS[sent] || 'mood';
+
+  // Department
+  document.getElementById('ai-department').textContent = data.department || '—';
+}
+
+function renderDuplicates(dups) {
+  const panel = document.getElementById('dup-panel');
+  if (!dups || dups.length === 0) { panel.classList.add('hidden'); return; }
+  panel.classList.remove('hidden');
+  const list = document.getElementById('dup-list');
+  list.innerHTML = dups.map(d => `
+    <div class="bg-white border border-orange-200 rounded-xl p-3 text-sm">
+      <div class="flex justify-between items-center">
+        <span class="font-bold text-orange-900">${d.complaint_id}</span>
+        <span class="text-xs bg-orange-100 text-orange-700 px-2 py-0.5 rounded-full font-semibold">${Math.round(d.similarity*100)}% similar</span>
+      </div>
+      <p class="text-xs text-on-surface-variant mt-1">${d.category} · <span class="capitalize">${d.status}</span></p>
+    </div>`).join('');
+}
+
+// ─── DESCRIPTION INPUT ───────────────────────────────────────
+document.getElementById('description').addEventListener('input', function() {
+  const len = this.value.length;
+  document.getElementById('char-count').textContent = `${len} / 2000`;
+  clearTimeout(analyzeDebounce);
+  analyzeDebounce = setTimeout(() => analyzeText(this.value), 700);
+});
+
+// ─── FILE UPLOAD ─────────────────────────────────────────────
+const dropZone = document.getElementById('drop-zone');
+const fileInput = document.getElementById('file-upload');
+const fileList  = document.getElementById('file-list');
+const filePreviews = document.getElementById('file-previews');
+
+// Store actual File objects for upload
+let uploadedFileObjects = [];
+
+dropZone.addEventListener('click', () => fileInput.click());
+dropZone.addEventListener('dragover', e => { e.preventDefault(); dropZone.classList.add('border-secondary','bg-secondary/5'); });
+dropZone.addEventListener('dragleave', () => dropZone.classList.remove('border-secondary','bg-secondary/5'));
+dropZone.addEventListener('drop', e => {
+  e.preventDefault();
+  dropZone.classList.remove('border-secondary','bg-secondary/5');
+  handleFiles(e.dataTransfer.files);
+});
+fileInput.addEventListener('change', e => handleFiles(e.target.files));
+
+function handleFiles(files) {
+  for (const f of files) {
+    if (uploadedFileObjects.length >= 3) break;
+    uploadedFileObjects.push(f);
+    renderFilePreviews();
+  }
+  // Reset the input so the same file can be re-added after removal
+  fileInput.value = '';
+}
+
+function renderFilePreviews() {
+  filePreviews.innerHTML = '';
+  uploadedFileObjects.forEach((f, idx) => {
+    const isImage = f.type.startsWith('image/');
+    const wrapper = document.createElement('div');
+    wrapper.className = 'preview-thumb';
+
+    const removeBtn = document.createElement('button');
+    removeBtn.type = 'button';
+    removeBtn.className = 'remove-btn';
+    removeBtn.title = 'Remove file';
+    removeBtn.innerHTML = '&times;';
+    removeBtn.addEventListener('click', () => {
+      uploadedFileObjects.splice(idx, 1);
+      renderFilePreviews();
+    });
+
+    if (isImage) {
+      const img = document.createElement('img');
+      img.alt = f.name;
+      const reader = new FileReader();
+      reader.onload = e => { img.src = e.target.result; };
+      reader.readAsDataURL(f);
+      wrapper.appendChild(img);
+    } else {
+      // PDF placeholder
+      const pdfDiv = document.createElement('div');
+      pdfDiv.className = 'pdf-thumb';
+      pdfDiv.innerHTML = `<span class="material-symbols-outlined text-2xl">picture_as_pdf</span><span>${f.name.split('.').pop().toUpperCase()}</span>`;
+      wrapper.appendChild(pdfDiv);
+    }
+
+    const label = document.createElement('span');
+    label.className = 'file-label';
+    label.title = f.name;
+    label.textContent = f.name;
+    wrapper.appendChild(removeBtn);
+    wrapper.appendChild(label);
+    filePreviews.appendChild(wrapper);
+  });
+}
+
+// ─── GEOLOCATION ─────────────────────────────────────────────
+document.getElementById('geolocate-btn').addEventListener('click', () => {
+  const status = document.getElementById('geo-status');
+  const geoBtn = document.getElementById('geolocate-btn');
+
+  function setStatus(msg) {
+    status.textContent = msg;
+    status.classList.remove('hidden');
+  }
+
+  async function reverseGeocode(lat, lng) {
+    const response = await fetch(
+      `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}&addressdetails=1`,
+      { headers: { 'User-Agent': 'PublicGrievancePortal/1.0 (grievance-portal@gov.in)' } }
+    );
+    if (!response.ok) throw new Error('Nominatim HTTP ' + response.status);
+    return response.json();
+  }
+
+  async function tryIPFallback() {
+    setStatus('📍 GPS unavailable — trying IP-based location...');
+    try {
+      const res = await fetch('https://ip-api.com/json/?fields=lat,lon,city,regionName,country,status');
+      const d = await res.json();
+      if (d.status === 'success') {
+        setStatus('📍 IP location found (' + d.city + '). Fetching address...');
+        try {
+          const geo = await reverseGeocode(d.lat, d.lon);
+          if (geo && geo.display_name) {
+            document.getElementById('address').value = geo.display_name;
+            setStatus('✅ Address auto-filled via IP location (approximate).');
+          } else {
+            document.getElementById('address').value = d.city + ', ' + d.regionName + ', ' + d.country;
+            setStatus('✅ City detected via IP. Please refine if needed.');
+          }
+        } catch(e2) {
+          document.getElementById('address').value = d.city + ', ' + d.regionName + ', ' + d.country;
+          setStatus('✅ City detected via IP. Please refine if needed.');
+        }
+      } else {
+        setStatus('❌ Could not detect location automatically. Please type your address.');
+      }
+    } catch(e3) {
+      setStatus('❌ Location detection failed. Please enter address manually.');
+    }
+    setTimeout(() => status.classList.add('hidden'), 6000);
+  }
+
+  if (!navigator.geolocation) {
+    tryIPFallback();
+    return;
+  }
+
+  setStatus('📍 Requesting GPS location...');
+  geoBtn.disabled = true;
+
+  navigator.geolocation.getCurrentPosition(
+    async pos => {
+      geoBtn.disabled = false;
+      const lat = pos.coords.latitude;
+      const lng = pos.coords.longitude;
+      const accuracy = pos.coords.accuracy;
+      setStatus('📍 GPS found (\u00b1' + Math.round(accuracy) + 'm). Fetching address...');
+
+      try {
+        const data = await reverseGeocode(lat, lng);
+        if (data && data.display_name) {
+          document.getElementById('address').value = data.display_name;
+          setStatus('✅ Address detected successfully.');
+        } else {
+          document.getElementById('address').value = 'Lat: ' + lat.toFixed(5) + ', Lng: ' + lng.toFixed(5);
+          setStatus('⚠ Could not fetch address details. Coordinates filled instead.');
+        }
+      } catch (error) {
+        console.error('Reverse geocoding error:', error);
+        document.getElementById('address').value = 'Lat: ' + lat.toFixed(5) + ', Lng: ' + lng.toFixed(5);
+        setStatus('⚠ Address lookup failed. Coordinates filled — please refine manually.');
+      }
+
+      setTimeout(() => status.classList.add('hidden'), 5000);
+    },
+    err => {
+      geoBtn.disabled = false;
+      if (err.code === 1) {
+        setStatus('🔒 Location permission denied. Allow location in browser settings, or type your address.');
+        setTimeout(() => status.classList.add('hidden'), 8000);
+      } else if (err.code === 2) {
+        setStatus('📡 Location unavailable (GPS signal weak or blocked).');
+        setTimeout(() => tryIPFallback(), 1500);
+      } else if (err.code === 3) {
+        setStatus('⏱ Location request timed out.');
+        setTimeout(() => tryIPFallback(), 1500);
+      } else {
+        setStatus('❌ Could not detect location.');
+        setTimeout(() => tryIPFallback(), 1500);
+      }
+    },
+    {
+      enableHighAccuracy: true,
+      timeout: 10000,
+      maximumAge: 60000
+    }
+  );
+});
+
+// ─── FORM SUBMIT ─────────────────────────────────────────────
+document.getElementById('grievance-form').addEventListener('submit', async e => {
+  e.preventDefault();
+  const btn = document.getElementById('submit-btn');
+  btn.disabled = true;
+  btn.innerHTML = `<span class="spinner material-symbols-outlined text-lg">progress_activity</span> Submitting...`;
+
+  // ── Step 1: Upload evidence files (if any) ──────────────
+  let evidenceFilenames = [];
+  if (uploadedFileObjects.length > 0) {
+    btn.innerHTML = `<span class="spinner material-symbols-outlined text-lg">progress_activity</span> Uploading files...`;
+    try {
+      const formData = new FormData();
+      uploadedFileObjects.forEach(f => formData.append('files', f));
+      const uploadRes = await fetch(`${API}/upload`, { method: 'POST', body: formData });
+      if (uploadRes.ok) {
+        const uploadData = await uploadRes.json();
+        evidenceFilenames = (uploadData.files || []).map(f => f.saved_name);
+      }
+    } catch(uploadErr) {
+      console.warn('File upload failed, continuing without evidence:', uploadErr);
+    }
+    btn.innerHTML = `<span class="spinner material-symbols-outlined text-lg">progress_activity</span> Submitting...`;
+  }
+
+  const payload = {
+    name:        document.getElementById('name').value.trim(),
+    phone:       document.getElementById('phone').value.trim(),
+    email:       document.getElementById('email').value.trim(),
+    address:     document.getElementById('address').value.trim(),
+    description: document.getElementById('description').value.trim(),
+    evidence_files: evidenceFilenames,
+  };
+
+  try {
+    const res = await fetch(`${API}/complaints`, {
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify(payload)
+    });
+    const data = await res.json();
+
+    if (res.status === 409 && data.error === 'duplicate') {
+      alert(`⚠ A very similar complaint already exists: ${data.existing_id}\nSimilarity: ${Math.round(data.similarity*100)}%\n\nPlease track the existing complaint instead.`);
+      btn.disabled = false;
+      btn.innerHTML = 'Submit Grievance <span class="material-symbols-outlined text-lg">send</span>';
+      return;
+    }
+
+    if (res.status === 400 && data.error === 'fake_detected') {
+      alert(`🚨 ${data.message}`);
+      btn.disabled = false;
+      btn.innerHTML = 'Submit Grievance <span class="material-symbols-outlined text-lg">send</span>';
+      return;
+    }
+
+    if (!res.ok) throw new Error(data.message || data.error || 'Submission failed');
+
+    // Show success
+    document.getElementById('grievance-form').classList.add('hidden');
+    const successEl = document.getElementById('success-state');
+    successEl.classList.remove('hidden');
+    successEl.classList.add('flex');
+    document.getElementById('generated-id').textContent = data.complaint_id;
+    document.getElementById('suc-category').textContent  = data.category  || '—';
+    document.getElementById('suc-priority').textContent  = data.priority  || '—';
+    document.getElementById('suc-sentiment').textContent = data.sentiment || '—';
+    document.getElementById('suc-department').textContent = data.department || '—';
+    document.getElementById('track-link').href = `/track?id=${data.complaint_id}`;
+
+    // Dynamically show/hide email and sms notifications based on server settings
+    const emailStatus = document.getElementById('email-status-text');
+    const smsStatus = document.getElementById('sms-status-text');
+    const container = document.getElementById('notification-status-container');
+    let hasAnyNotification = false;
+
+    if (data.email_sent) {
+      emailStatus.classList.remove('hidden');
+      hasAnyNotification = true;
+    } else {
+      emailStatus.classList.add('hidden');
+    }
+
+    if (data.sms_sent) {
+      smsStatus.classList.remove('hidden');
+      hasAnyNotification = true;
+    } else {
+      smsStatus.classList.add('hidden');
+    }
+
+    if (hasAnyNotification) {
+      container.classList.remove('hidden');
+    } else {
+      container.classList.add('hidden');
+    }
+
+  } catch(err) {
+    if (err.message && err.message !== 'Failed to fetch') {
+      alert(`Error: ${err.message}`);
+      btn.disabled = false;
+      btn.innerHTML = 'Submit Grievance <span class="material-symbols-outlined text-lg">send</span>';
+    } else {
+      // Fallback: generate local ID if server is unreachable
+      const localId = 'PGC-' + new Date().getFullYear() + '-' + Math.random().toString(36).substring(2,8).toUpperCase();
+      document.getElementById('grievance-form').classList.add('hidden');
+      const successEl = document.getElementById('success-state');
+      successEl.classList.remove('hidden');
+      successEl.classList.add('flex');
+      document.getElementById('generated-id').textContent = localId;
+      if (lastAnalysis) {
+        document.getElementById('suc-category').textContent   = lastAnalysis.category  || '—';
+        document.getElementById('suc-priority').textContent   = lastAnalysis.priority  || '—';
+        document.getElementById('suc-sentiment').textContent  = lastAnalysis.sentiment || '—';
+        document.getElementById('suc-department').textContent = lastAnalysis.department || '—';
+      }
+    }
+  }
+});
+
+function resetForm() {
+  document.getElementById('grievance-form').reset();
+  document.getElementById('grievance-form').classList.remove('hidden');
+  const s = document.getElementById('success-state');
+  s.classList.add('hidden');
+  s.classList.remove('flex');
+  document.getElementById('ai-panel').classList.add('hidden');
+  document.getElementById('dup-panel').classList.add('hidden');
+  document.getElementById('file-list').innerHTML = '';
+  document.getElementById('file-previews').innerHTML = '';
+  uploadedFiles = [];
+  uploadedFileObjects = [];
+  lastAnalysis = null;
+  document.getElementById('char-count').textContent = '0 / 2000';
+  const btn = document.getElementById('submit-btn');
+  btn.disabled = false;
+  btn.innerHTML = 'Submit Grievance <span class="material-symbols-outlined text-lg">send</span>';
+}
+
+// Focus micro-animation
+document.querySelectorAll('input,textarea').forEach(el => {
+  el.addEventListener('focus', () => el.classList.add('ring-2','ring-secondary/20'));
+  el.addEventListener('blur',  () => el.classList.remove('ring-2','ring-secondary/20'));
+});
+</script>
+
+<script>
+// ─── VOICE DICTATION ─────────────────────────────────────────
+const dictationBtn = document.getElementById('dictation-btn');
+const dictationLang = document.getElementById('dictation-lang');
+const descArea = document.getElementById('description');
+let recognition = null;
+let isRecording = false;
+
+if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+  recognition = new SpeechRecognition();
+  recognition.continuous = true;
+  recognition.interimResults = true;
+
+  recognition.onstart = function() {
+    isRecording = true;
+    dictationBtn.classList.add('bg-error', 'text-white', 'animate-pulse');
+    dictationBtn.classList.remove('bg-surface-variant', 'text-on-surface');
+    dictationBtn.innerHTML = '<span class="material-symbols-outlined text-sm">mic</span> Recording...';
+  };
+
+  recognition.onresult = function(event) {
+    let finalTranscript = '';
+    for (let i = event.resultIndex; i < event.results.length; ++i) {
+      if (event.results[i].isFinal) {
+        finalTranscript += event.results[i][0].transcript + ' ';
+      }
+    }
+    if (finalTranscript) {
+      descArea.value += finalTranscript;
+      descArea.dispatchEvent(new Event('input'));
+    }
+  };
+
+  recognition.onerror = function(event) {
+    console.error('Speech recognition error', event.error);
+    stopRecording();
+  };
+
+  recognition.onend = function() {
+    stopRecording();
+  };
+
+  dictationBtn.addEventListener('click', () => {
+    if (isRecording) {
+      recognition.stop();
+    } else {
+      recognition.lang = dictationLang.value;
+      recognition.start();
+    }
+  });
+
+  function stopRecording() {
+    isRecording = false;
+    dictationBtn.classList.remove('bg-error', 'text-white', 'animate-pulse');
+    dictationBtn.classList.add('bg-surface-variant', 'text-on-surface');
+    dictationBtn.innerHTML = '<span class="material-symbols-outlined text-sm">mic</span> Start Dictation';
+  }
+} else {
+  dictationBtn.style.display = 'none';
+  dictationLang.style.display = 'none';
+  console.warn('Speech Recognition API not supported in this browser.');
+}
+</script>
+
+<!-- Google Translate Widget -->
+<script type="text/javascript">
+    function googleTranslateElementInit() {
+        new google.translate.TranslateElement({
+            pageLanguage: 'en',
+            includedLanguages: 'en,hi,te',
+            layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+        }, 'google_translate_element');
+    }
+</script>
+<script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+</body>
+</html>

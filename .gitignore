@@ -1,0 +1,31 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environments
+venv/
+env/
+.venv/
+
+# Environment and sensitive credentials
+.env
+backend/.env
+
+# Local database and dynamic storage
+backend/complaints.db
+backend/uploads/*
+!backend/uploads/.gitkeep
+
+# GitHub file size limit (>100MB) exclusions & large raw datasets
+*.pt
+*.bin
+Datasets/rows.csv
+Datasets/ticket.csv
+Datasets/Category/no_pii_action_history.json
+Datasets/Category/no_pii_grievance.json
+
+# Operating System files
+.DS_Store
+Thumbs.db
+desktop.ini

@@ -1,0 +1,1397 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Admin Panel - Public Grievance Portal</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-tint": "#465f88",
+                        "on-primary-container": "#87a0cd",
+                        "tertiary-container": "#323639",
+                        "primary": "#002046",
+                        "secondary": "#155fa8",
+                        "on-secondary-fixed-variant": "#004784",
+                        "on-error-container": "#93000a",
+                        "on-secondary-fixed": "#001c3a",
+                        "surface-variant": "#d9e3f4",
+                        "surface-container-high": "#dfe9fa",
+                        "on-tertiary-container": "#9b9fa2",
+                        "on-tertiary-fixed": "#181c1e",
+                        "secondary-container": "#76b0ff",
+                        "on-surface-variant": "#44474e",
+                        "surface-container-highest": "#d9e3f4",
+                        "primary-fixed": "#d6e3ff",
+                        "primary-fixed-dim": "#aec7f7",
+                        "tertiary": "#1d2123",
+                        "background": "#f8f9ff",
+                        "on-surface": "#121c28",
+                        "surface-dim": "#d1dbec",
+                        "outline-variant": "#c4c6cf",
+                        "on-secondary-container": "#00427b",
+                        "secondary-fixed": "#d4e3ff",
+                        "tertiary-fixed-dim": "#c3c7ca",
+                        "primary-container": "#1b365d",
+                        "inverse-on-surface": "#eaf1ff",
+                        "on-primary-fixed": "#001b3d",
+                        "surface-bright": "#f8f9ff",
+                        "surface-container-lowest": "#ffffff",
+                        "error": "#ba1a1a",
+                        "error-container": "#ffdad6",
+                        "surface-container": "#e5eeff",
+                        "secondary-fixed-dim": "#a5c8ff",
+                        "on-tertiary": "#ffffff",
+                        "on-error": "#ffffff",
+                        "on-primary-fixed-variant": "#2e476f",
+                        "on-background": "#121c28",
+                        "on-tertiary-fixed-variant": "#43474a",
+                        "inverse-primary": "#aec7f7",
+                        "surface-container-low": "#eef4ff",
+                        "surface": "#f8f9ff",
+                        "on-primary": "#ffffff",
+                        "tertiary-fixed": "#e0e3e6",
+                        "outline": "#74777f",
+                        "on-secondary": "#ffffff",
+                        "inverse-surface": "#27313e"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "container-max": "1280px",
+                        "base": "8px",
+                        "gutter": "24px",
+                        "margin-desktop": "64px",
+                        "margin-mobile": "16px"
+                    },
+                    "fontFamily": {
+                        "caption": ["Inter"],
+                        "body-md": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "display-lg": ["Inter"],
+                        "label-md": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "headline-lg-mobile": ["Inter"]
+                    },
+                    "fontSize": {
+                        "caption": ["12px", {"lineHeight": "16px", "fontWeight": "400"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                        "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                        "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "600"}],
+                        "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                        "headline-lg-mobile": ["28px", {"lineHeight": "36px", "fontWeight": "700"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .chart-container { position: relative; height: 240px; width: 100%; }
+        .bento-grid {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            gap: 24px;
+        }
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+        /* Google Translate Styling */
+        .goog-te-gadget-simple {
+            background-color: transparent !important;
+            border: 1px solid #c4c6cf !important;
+            padding: 4px 8px !important;
+            border-radius: 6px !important;
+            font-family: 'Inter', sans-serif !important;
+            font-size: 14px !important;
+        }
+        .goog-te-gadget-icon { display: none; }
+        .goog-te-banner-frame { display: none !important; }
+        body { top: 0 !important; }
+
+        @media print {
+            body * {
+                visibility: hidden;
+            }
+            #print-template, #print-template * {
+                visibility: visible;
+            }
+            #print-template {
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 100%;
+                background-color: #f8f9ff !important;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+            /* Hide the print template on screen */
+            .print-hidden-screen {
+                display: block !important;
+            }
+        }
+        
+        @media screen {
+            .print-hidden-screen {
+                display: none !important;
+            }
+        }
+
+        /* Admin Evidence Thumbnail Styles */
+        .admin-evidence-thumb {
+            position: relative;
+            display: inline-flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+        }
+        .admin-evidence-thumb img {
+            width: 90px;
+            height: 90px;
+            object-fit: cover;
+            border-radius: 10px;
+            border: 2px solid #c4c6cf;
+            cursor: pointer;
+            transition: transform .2s, border-color .2s, box-shadow .2s;
+        }
+        .admin-evidence-thumb img:hover {
+            transform: scale(1.05);
+            border-color: #155fa8;
+            box-shadow: 0 4px 14px rgba(21,95,168,.25);
+        }
+        .admin-evidence-thumb .admin-pdf-thumb {
+            width: 90px;
+            height: 90px;
+            border-radius: 10px;
+            border: 2px solid #c4c6cf;
+            background: #eef4ff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            font-weight: 600;
+            color: #155fa8;
+            gap: 4px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: border-color .2s, box-shadow .2s;
+        }
+        .admin-evidence-thumb .admin-pdf-thumb:hover {
+            border-color: #155fa8;
+            box-shadow: 0 4px 14px rgba(21,95,168,.2);
+        }
+        .admin-evidence-thumb .ev-label {
+            font-size: 10px;
+            color: #44474e;
+            max-width: 90px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            text-align: center;
+        }
+        /* Lightbox overlay */
+        #admin-lightbox {
+            display: none;
+            position: fixed;
+            inset: 0;
+            z-index: 9999;
+            background: rgba(0,0,0,.85);
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+        #admin-lightbox.open {
+            display: flex;
+        }
+        #admin-lightbox img {
+            max-width: 90vw;
+            max-height: 90vh;
+            border-radius: 12px;
+            box-shadow: 0 20px 60px rgba(0,0,0,.6);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md overflow-hidden h-screen flex">
+<!-- SideNavBar (Mobile hidden, Web flex) -->
+<aside class="hidden lg:flex flex-col h-full p-4 gap-2 bg-surface-container-low dark:bg-surface-container-highest border-r border-outline-variant w-64">
+<div onclick="window.location.href='/'" class="px-2 py-4 flex items-center gap-3 mb-6 cursor-pointer hover:opacity-85 transition-opacity">
+<div class="w-10 h-10 rounded-lg bg-primary flex items-center justify-center text-white">
+<span class="material-symbols-outlined">account_balance</span>
+</div>
+<div>
+<h1 class="text-label-md font-label-md font-bold text-on-surface dark:text-on-surface-variant">Admin Panel</h1>
+<p class="text-caption font-caption text-on-surface-variant">System Management</p>
+</div>
+</div>
+<nav class="flex-1 flex flex-col gap-1">
+<a class="tab-btn active flex items-center gap-3 px-4 py-3 bg-secondary-container text-on-secondary-container rounded-lg font-bold transition-transform scale-95 cursor-pointer" onclick="openTab('Dashboard')">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="text-label-md font-label-md">Dashboard</span>
+</a>
+<a class="tab-btn flex items-center gap-3 px-4 py-3 text-on-surface-variant dark:text-surface-variant hover:bg-surface-variant transition-all rounded-lg cursor-pointer" onclick="openTab('Grievances')">
+<span class="material-symbols-outlined">description</span>
+<span class="text-label-md font-label-md">Grievances</span>
+</a>
+<a class="tab-btn flex items-center gap-3 px-4 py-3 text-on-surface-variant dark:text-surface-variant hover:bg-surface-variant transition-all rounded-lg cursor-pointer" onclick="openTab('Departments')">
+<span class="material-symbols-outlined">account_balance</span>
+<span class="text-label-md font-label-md">Departments</span>
+</a>
+<a class="tab-btn flex items-center gap-3 px-4 py-3 text-on-surface-variant dark:text-surface-variant hover:bg-surface-variant transition-all rounded-lg cursor-pointer" onclick="openTab('Reports')">
+<span class="material-symbols-outlined">analytics</span>
+<span class="text-label-md font-label-md">Reports</span>
+</a>
+<a class="tab-btn flex items-center gap-3 px-4 py-3 text-on-surface-variant dark:text-surface-variant hover:bg-surface-variant transition-all rounded-lg cursor-pointer" onclick="openTab('Settings')">
+<span class="material-symbols-outlined">settings</span>
+<span class="text-label-md font-label-md">Settings</span>
+</a>
+</nav>
+
+</aside>
+<main class="flex-1 flex flex-col h-full overflow-hidden">
+<!-- TopNavBar -->
+<header class="flex justify-between items-center w-full px-base md:px-margin-desktop h-16 bg-surface dark:bg-surface-container-highest border-b border-outline-variant dark:border-outline">
+<h2 id="page-title" class="text-headline-md font-headline-md font-bold text-primary dark:text-primary-fixed">Dashboard Overview</h2>
+<div class="flex items-center gap-6">
+<div id="google_translate_element"></div>
+<div class="hidden md:flex items-center bg-surface-container rounded-full px-4 py-1.5 border border-outline-variant">
+<span class="material-symbols-outlined text-on-surface-variant text-[20px]">search</span>
+<input id="admin-search" class="bg-transparent border-none focus:ring-0 text-label-md w-48" placeholder="Search records..." type="text"/>
+</div>
+<div class="flex items-center gap-4">
+<button class="material-symbols-outlined text-on-surface-variant hover:bg-surface-container-low transition-colors p-2 rounded-full">notifications</button>
+<button class="material-symbols-outlined text-on-surface-variant hover:bg-surface-container-low transition-colors p-2 rounded-full">help</button>
+<button id="logout-btn" class="px-4 py-2 bg-primary text-on-primary rounded-lg text-label-md font-label-md hover:opacity-90 transition-all text-center flex items-center justify-center">Logout</button>
+</div>
+</div>
+</header>
+<!-- Scrollable Content -->
+<div class="flex-1 overflow-y-auto p-gutter bg-background">
+<div class="max-w-container-max mx-auto space-y-gutter">
+
+<!-- Dashboard Tab -->
+<div id="DashboardTab" class="tab-content space-y-gutter">
+
+<!-- Stats Row -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-gutter">
+<div class="bg-surface-container-lowest p-6 rounded-xl shadow-sm border border-outline-variant flex justify-between items-center group hover:border-secondary transition-all">
+<div>
+<p class="text-label-md text-on-surface-variant font-medium">Total Complaints</p>
+<h3 id="admin-total-complaints" class="text-display-lg font-display-lg mt-1">-</h3>
+<span class="text-caption text-green-600 flex items-center mt-1"><span class="material-symbols-outlined text-[14px]">trending_up</span></span>
+</div>
+<div class="w-14 h-14 rounded-full bg-primary-container/10 flex items-center justify-center text-primary group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-[32px]">description</span>
+</div>
+</div>
+<div class="bg-surface-container-lowest p-6 rounded-xl shadow-sm border border-outline-variant flex justify-between items-center group hover:border-error transition-all">
+<div>
+<p class="text-label-md text-on-surface-variant font-medium">Pending Issues</p>
+<h3 id="admin-pending-issues" class="text-display-lg font-display-lg mt-1 text-error">-</h3>
+<span class="text-caption text-error flex items-center mt-1"><span class="material-symbols-outlined text-[14px]">priority_high</span></span>
+</div>
+<div class="w-14 h-14 rounded-full bg-error-container/20 flex items-center justify-center text-error group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-[32px]" style="font-variation-settings: 'FILL' 1;">error</span>
+</div>
+</div>
+<div class="bg-surface-container-lowest p-6 rounded-xl shadow-sm border border-outline-variant flex justify-between items-center group hover:border-secondary transition-all">
+<div>
+<p class="text-label-md text-on-surface-variant font-medium">Resolution Rate</p>
+<h3 id="admin-resolution-rate" class="text-display-lg font-display-lg mt-1">-</h3>
+<span class="text-caption text-secondary flex items-center mt-1"><span class="material-symbols-outlined text-[14px]">check_circle</span></span>
+</div>
+<div class="w-14 h-14 rounded-full bg-secondary-container/20 flex items-center justify-center text-secondary group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-[32px]">task_alt</span>
+</div>
+</div>
+</div>
+<!-- Visual Analytics Section (Bento Style) -->
+<div class="bento-grid">
+<!-- Resolution Trends -->
+<div class="col-span-12 lg:col-span-8 bg-surface-container-lowest p-6 rounded-xl shadow-sm border border-outline-variant">
+<div class="flex justify-between items-center mb-8">
+<h4 class="text-headline-md font-headline-md">Resolution Trends</h4>
+<div class="flex gap-2">
+<button class="px-3 py-1 text-caption font-bold bg-surface-variant rounded">Weekly</button>
+<button class="px-3 py-1 text-caption font-medium hover:bg-surface-variant rounded">Monthly</button>
+</div>
+</div>
+<div id="dashboard-chart" class="chart-container flex items-end justify-between gap-4 px-4 h-48">
+<!-- Filled dynamically by JS -->
+</div>
+<div id="dashboard-chart-labels" class="flex justify-between mt-4 text-caption text-on-surface-variant opacity-60">
+<!-- Filled dynamically by JS -->
+</div>
+</div>
+<!-- Category Distribution -->
+<div class="col-span-12 lg:col-span-4 bg-surface-container-lowest p-6 rounded-xl shadow-sm border border-outline-variant">
+<h4 class="text-headline-md font-headline-md mb-8">Categories</h4>
+<div class="relative w-48 h-48 mx-auto flex items-center justify-center">
+<!-- CSS Circular Graphic representing Pie Chart -->
+<div class="absolute inset-0 rounded-full border-[20px] border-secondary border-t-primary border-l-secondary-container"></div>
+<div class="text-center">
+<span id="pie-center-label" class="text-label-md font-bold block">Registered</span>
+<span id="pie-center-pct" class="text-caption opacity-60">100%</span>
+</div>
+</div>
+<div id="admin-category-distribution" class="mt-8 space-y-2">
+</div>
+</div>
+</div>
+</div>
+
+<!-- Grievances Tab -->
+<div id="GrievancesTab" class="tab-content hidden space-y-gutter">
+
+<!-- Management Table -->
+<div class="bg-surface-container-lowest rounded-xl shadow-sm border border-outline-variant overflow-hidden">
+<div class="p-6 border-b border-outline-variant flex flex-col md:flex-row md:items-center justify-between gap-4">
+<h4 class="text-headline-md font-headline-md">Active Grievances</h4>
+<div class="flex flex-wrap items-center gap-2">
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-[18px] text-on-surface-variant">filter_list</span>
+<select id="admin-category-filter" class="pl-10 pr-8 py-2 bg-background border border-outline-variant rounded-lg text-label-md focus:ring-secondary focus:border-secondary transition-all appearance-none cursor-pointer">
+<option value="">All Categories</option>
+<option value="Sanitation">Sanitation</option>
+<option value="Water Supply">Water Supply</option>
+<option value="Electricity">Electricity</option>
+<option value="Roads & Infrastructure">Roads &amp; Traffic</option>
+<option value="Public Healthcare">Public Healthcare</option>
+<option value="Public Safety">Public Safety</option>
+<option value="Public Infrastructure">Public Infrastructure</option>
+</select>
+</div>
+<button onclick="downloadCSV()" class="flex items-center gap-2 px-4 py-2 border border-outline-variant rounded-lg text-label-md font-label-md hover:bg-surface-variant transition-all">
+<span class="material-symbols-outlined text-[18px]">download</span> Export CSV
+                            </button>
+</div>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container-low border-b border-outline-variant">
+<th class="px-6 py-4 text-label-md font-label-md text-on-surface-variant uppercase tracking-wider">Complaint ID</th>
+<th class="px-6 py-4 text-label-md font-label-md text-on-surface-variant uppercase tracking-wider">Category</th>
+<th class="px-6 py-4 text-label-md font-label-md text-on-surface-variant uppercase tracking-wider">Priority</th>
+<th class="px-6 py-4 text-label-md font-label-md text-on-surface-variant uppercase tracking-wider">Status</th>
+<th class="px-6 py-4 text-label-md font-label-md text-on-surface-variant uppercase tracking-wider">Created</th>
+<th class="px-6 py-4 text-label-md font-label-md text-on-surface-variant uppercase tracking-wider text-right">Action</th>
+</tr>
+</thead>
+<tbody id="admin-table-body" class="divide-y divide-outline-variant">
+</tbody>
+</table>
+</div>
+<div class="p-4 bg-surface-container-low flex items-center justify-between">
+<p class="text-caption text-on-surface-variant">Showing 1 to 4 of 1,284 entries</p>
+<div class="flex gap-1">
+<button class="p-2 border border-outline-variant rounded hover:bg-white transition-all"><span class="material-symbols-outlined text-[18px]">chevron_left</span></button>
+<button class="w-8 h-8 flex items-center justify-center bg-primary text-white rounded text-caption font-bold">1</button>
+<button class="w-8 h-8 flex items-center justify-center border border-outline-variant rounded text-caption hover:bg-white transition-all">2</button>
+<button class="w-8 h-8 flex items-center justify-center border border-outline-variant rounded text-caption hover:bg-white transition-all">3</button>
+<button class="p-2 border border-outline-variant rounded hover:bg-white transition-all"><span class="material-symbols-outlined text-[18px]">chevron_right</span></button>
+</div>
+</div>
+</div>
+</div>
+
+<!-- Departments Tab -->
+<div id="DepartmentsTab" class="tab-content hidden space-y-gutter">
+  <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-4">
+    <div>
+      <h3 class="text-headline-md font-headline-md font-bold text-primary dark:text-primary-fixed">Active Departments</h3>
+      <p class="text-body-md text-on-surface-variant">Manage department categories and personnel.</p>
+    </div>
+    <button onclick="addDepartment()" class="bg-primary text-white px-4 py-2 rounded-lg font-bold flex items-center gap-2 hover:opacity-90 transition-opacity">
+      <span class="material-symbols-outlined text-[20px]">add</span> Add Department
+    </button>
+  </div>
+  
+  <div id="admin-departments-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-gutter">
+    <!-- Filled dynamically by JS -->
+  </div>
+</div>
+
+<!-- Reports Tab -->
+<div id="ReportsTab" class="tab-content hidden space-y-gutter">
+  <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-4">
+    <div>
+      <h3 class="text-headline-md font-headline-md font-bold text-primary dark:text-primary-fixed">Analytics & Reports</h3>
+      <p class="text-body-md text-on-surface-variant">Generate detailed insights based on grievance data.</p>
+    </div>
+  </div>
+
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-gutter">
+    <!-- Generator Form -->
+    <div class="col-span-1 bg-surface-container-lowest p-6 rounded-xl shadow-sm border border-outline-variant">
+      <h4 class="text-label-md font-bold uppercase tracking-wider text-on-surface-variant mb-6 flex items-center gap-2"><span class="material-symbols-outlined">tune</span> Report Parameters</h4>
+      <form class="space-y-4" onsubmit="event.preventDefault(); generatePDFReport();">
+        <div>
+          <label class="block text-caption font-bold text-on-surface mb-1">Date Range</label>
+          <div class="flex gap-2">
+            <input type="date" class="w-full border border-outline-variant rounded-lg bg-background py-2 px-3 text-body-md focus:ring-secondary focus:border-secondary">
+            <span class="text-on-surface-variant flex items-center">to</span>
+            <input type="date" class="w-full border border-outline-variant rounded-lg bg-background py-2 px-3 text-body-md focus:ring-secondary focus:border-secondary">
+          </div>
+        </div>
+        <div>
+          <label class="block text-caption font-bold text-on-surface mb-1">Category</label>
+          <select class="w-full border border-outline-variant rounded-lg bg-background py-2 px-3 text-body-md focus:ring-secondary focus:border-secondary appearance-none">
+            <option>All Categories</option>
+            <option>Sanitation</option>
+            <option>Water Supply</option>
+            <option>Electricity</option>
+          </select>
+        </div>
+        <div>
+          <label class="block text-caption font-bold text-on-surface mb-1">Status</label>
+          <select class="w-full border border-outline-variant rounded-lg bg-background py-2 px-3 text-body-md focus:ring-secondary focus:border-secondary appearance-none">
+            <option>All Statuses</option>
+            <option>Pending / Open</option>
+            <option>Resolved</option>
+            <option>Closed</option>
+          </select>
+        </div>
+        <div class="pt-4 flex flex-col gap-2">
+          <button type="submit" class="w-full bg-primary text-white py-2.5 rounded-lg font-bold hover:opacity-90 transition-opacity flex justify-center items-center gap-2">
+            <span class="material-symbols-outlined text-[20px]">picture_as_pdf</span> Generate PDF
+          </button>
+          <button type="button" onclick="downloadCSV()" class="w-full bg-surface-container border border-outline-variant text-on-surface py-2.5 rounded-lg font-bold hover:bg-surface-variant transition-colors flex justify-center items-center gap-2">
+            <span class="material-symbols-outlined text-[20px]">table_view</span> Export CSV
+          </button>
+        </div>
+      </form>
+    </div>
+
+    <!-- History -->
+    <div class="col-span-1 lg:col-span-2 bg-surface-container-lowest p-6 rounded-xl shadow-sm border border-outline-variant">
+      <h4 class="text-label-md font-bold uppercase tracking-wider text-on-surface-variant mb-6 flex items-center gap-2"><span class="material-symbols-outlined">history</span> Recent Reports</h4>
+      <div class="overflow-x-auto">
+        <table class="w-full text-left border-collapse">
+          <thead>
+            <tr class="border-b border-outline-variant">
+              <th class="py-3 text-caption text-on-surface-variant">Report Name</th>
+              <th class="py-3 text-caption text-on-surface-variant">Date Generated</th>
+              <th class="py-3 text-caption text-on-surface-variant text-right">Action</th>
+            </tr>
+          </thead>
+          <tbody id="reports-history-body" class="divide-y divide-outline-variant">
+            <!-- Dynamically populated or empty for now -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Settings Tab -->
+<div id="SettingsTab" class="tab-content hidden space-y-gutter">
+  <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-4">
+    <div>
+      <h3 class="text-headline-md font-headline-md font-bold text-primary dark:text-primary-fixed">System Settings</h3>
+      <p class="text-body-md text-on-surface-variant">Configure portal parameters and AI routing rules. Changes are saved to the server.</p>
+    </div>
+    <button onclick="saveSettings()" class="bg-secondary text-white px-6 py-2 rounded-lg font-bold hover:brightness-110 transition-all shadow-sm">Save Changes</button>
+  </div>
+
+  <!-- Maintenance Mode Active Banner -->
+  <div id="maintenance-banner" class="hidden items-center gap-3 bg-amber-50 border border-amber-300 text-amber-800 rounded-xl px-5 py-4 mb-4">
+    <span class="material-symbols-outlined text-amber-600 text-2xl">construction</span>
+    <div>
+      <p class="font-bold">Maintenance Mode is Active</p>
+      <p class="text-sm">Public complaint submissions are currently disabled. Toggle off and save to restore access.</p>
+    </div>
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-gutter">
+    <!-- General Settings -->
+    <div class="bg-surface-container-lowest p-6 rounded-xl shadow-sm border border-outline-variant space-y-6">
+      <h4 class="text-label-md font-bold uppercase tracking-wider text-on-surface-variant flex items-center gap-2 border-b border-outline-variant pb-2"><span class="material-symbols-outlined">settings_applications</span> General</h4>
+      
+      <div class="flex items-center justify-between">
+        <div>
+          <p class="font-bold text-on-surface">Maintenance Mode</p>
+          <p class="text-caption text-on-surface-variant">Temporarily disable public submissions.</p>
+        </div>
+        <label class="relative inline-flex items-center cursor-pointer">
+          <input type="checkbox" id="setting-maintenance" class="sr-only peer">
+          <div class="w-11 h-6 bg-outline-variant peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-secondary"></div>
+        </label>
+      </div>
+
+      <div class="flex items-center justify-between">
+        <div>
+          <p class="font-bold text-on-surface">Allow Anonymous Reports</p>
+          <p class="text-caption text-on-surface-variant">Let citizens file grievances without an account.</p>
+        </div>
+        <label class="relative inline-flex items-center cursor-pointer">
+          <input type="checkbox" id="setting-anon" value="" class="sr-only peer" checked>
+          <div class="w-11 h-6 bg-outline-variant peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-secondary"></div>
+        </label>
+      </div>
+    </div>
+
+    <!-- Notifications -->
+    <div class="bg-surface-container-lowest p-6 rounded-xl shadow-sm border border-outline-variant space-y-6">
+      <h4 class="text-label-md font-bold uppercase tracking-wider text-on-surface-variant flex items-center gap-2 border-b border-outline-variant pb-2"><span class="material-symbols-outlined">notifications</span> Notifications</h4>
+      
+      <div class="flex items-center justify-between">
+        <div>
+          <p class="font-bold text-on-surface">Citizen SMS Updates</p>
+          <p class="text-caption text-on-surface-variant">Send automated status updates via SMS.</p>
+        </div>
+        <label class="relative inline-flex items-center cursor-pointer">
+          <input type="checkbox" id="setting-sms" value="" class="sr-only peer" checked>
+          <div class="w-11 h-6 bg-outline-variant peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-secondary"></div>
+        </label>
+      </div>
+
+      <div class="flex items-center justify-between">
+        <div>
+          <p class="font-bold text-on-surface">Admin Email Alerts</p>
+          <p class="text-caption text-on-surface-variant">Notify admins instantly for 'Critical' priority issues.</p>
+        </div>
+        <label class="relative inline-flex items-center cursor-pointer">
+          <input type="checkbox" id="setting-email" value="" class="sr-only peer" checked>
+          <div class="w-11 h-6 bg-outline-variant peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-secondary"></div>
+        </label>
+      </div>
+    </div>
+
+    <!-- AI Settings -->
+    <div class="md:col-span-2 bg-surface-container-lowest p-6 rounded-xl shadow-sm border border-outline-variant space-y-6">
+      <h4 class="text-label-md font-bold uppercase tracking-wider text-on-surface-variant flex items-center gap-2 border-b border-outline-variant pb-2"><span class="material-symbols-outlined">auto_awesome</span> AI & Routing Rules</h4>
+      
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div>
+          <label class="block font-bold text-on-surface mb-2">Auto-Routing Confidence Threshold</label>
+          <p class="text-caption text-on-surface-variant mb-4">Minimum confidence score required for AI to automatically route a grievance.</p>
+          <div class="flex items-center gap-4">
+            <input type="range" id="setting-threshold" min="0" max="100" value="85" class="w-full h-2 bg-surface-variant rounded-lg appearance-none cursor-pointer accent-secondary" oninput="document.getElementById('setting-threshold-val').textContent = this.value + '%'">
+            <span id="setting-threshold-val" class="font-bold text-secondary bg-secondary-container px-3 py-1 rounded">85%</span>
+          </div>
+        </div>
+        <div class="space-y-4">
+          <div class="flex items-center justify-between">
+            <div>
+              <p class="font-bold text-on-surface">Flag Profanity / Abuse</p>
+              <p class="text-caption text-on-surface-variant">Automatically pause offensive reports for review.</p>
+            </div>
+            <label class="relative inline-flex items-center cursor-pointer">
+              <input type="checkbox" id="setting-profanity" value="" class="sr-only peer" checked>
+              <div class="w-11 h-6 bg-outline-variant peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-secondary"></div>
+            </label>
+          </div>
+          <div class="flex items-center justify-between">
+            <div>
+              <p class="font-bold text-on-surface">Duplicate Detection</p>
+              <p class="text-caption text-on-surface-variant">Merge similar reports within 500m radius.</p>
+            </div>
+            <label class="relative inline-flex items-center cursor-pointer">
+              <input type="checkbox" id="setting-duplicate" value="" class="sr-only peer" checked>
+              <div class="w-11 h-6 bg-outline-variant peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-secondary"></div>
+            </label>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div>
+<!-- Footer (from JSON) -->
+<footer class="mt-12 w-full py-gutter flex flex-col md:flex-row justify-between items-center gap-4 border-t border-outline-variant text-on-tertiary-container bg-tertiary/5">
+<p class="text-caption font-caption">© 2024 Government of Information Technology. All rights reserved.</p>
+<div class="flex gap-6">
+<a class="text-caption font-caption hover:underline transition-all" href="#">Privacy Policy</a>
+<a class="text-caption font-caption hover:underline transition-all" href="#">Terms of Service</a>
+<a class="text-caption font-caption hover:underline transition-all" href="#">Contact Us</a>
+<a class="text-caption font-caption hover:underline transition-all" href="#">Accessibility Statement</a>
+</div>
+<!-- Admin Complaint Detail Modal -->
+<div id="admin-detail-modal" class="hidden fixed inset-0 z-50 overflow-y-auto flex items-center justify-center p-4 bg-primary/40 backdrop-blur-sm transition-opacity">
+  <div class="bg-white rounded-2xl max-w-2xl w-full shadow-2xl overflow-hidden border border-outline-variant flex flex-col max-h-[90vh]">
+    <!-- Modal Header -->
+    <div class="bg-primary text-white p-5 flex justify-between items-center flex-shrink-0">
+      <div class="flex items-center gap-2">
+        <span class="material-symbols-outlined text-xl">description</span>
+        <h3 class="text-headline-md font-headline-md">Grievance Details</h3>
+      </div>
+      <button onclick="closeAdminModal()" class="text-white/80 hover:text-white hover:bg-white/10 p-1.5 rounded-lg transition-colors flex items-center justify-center">
+        <span class="material-symbols-outlined text-xl">close</span>
+      </button>
+    </div>
+    
+    <!-- Modal Scrollable Content -->
+    <div class="p-6 overflow-y-auto space-y-6 flex-grow">
+      <!-- Row 1: Complaint ID, Status Badge & Priority -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 bg-surface-container-low p-4 rounded-xl border border-outline-variant text-sm">
+        <div>
+          <span class="text-xs text-on-surface-variant font-bold uppercase tracking-wider block">Complaint ID</span>
+          <span id="modal-complaint-id" class="text-base font-bold text-primary">—</span>
+        </div>
+        <div>
+          <span class="text-xs text-on-surface-variant font-bold uppercase tracking-wider block">Status</span>
+          <span id="modal-status" class="inline-block mt-1 px-3 py-0.5 rounded-full text-xs font-bold bg-secondary-container text-on-secondary-container">—</span>
+        </div>
+        <div>
+          <span class="text-xs text-on-surface-variant font-bold uppercase tracking-wider block">AI Priority</span>
+          <span id="modal-priority" class="inline-block mt-1 px-3 py-0.5 rounded-full text-xs font-bold bg-error-container text-on-error-container">—</span>
+        </div>
+      </div>
+
+      <!-- Row 2: Citizen Details -->
+      <div class="space-y-3">
+        <h4 class="text-sm font-bold text-primary uppercase tracking-wider border-b border-outline-variant pb-1 flex items-center gap-1">
+          <span class="material-symbols-outlined text-base">person</span> Citizen Contact Information
+        </h4>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
+          <div><p class="text-xs text-on-surface-variant">Name</p><p id="modal-name" class="font-semibold text-on-surface text-sm">—</p></div>
+          <div><p class="text-xs text-on-surface-variant">Phone</p><p id="modal-phone" class="font-semibold text-on-surface text-sm">—</p></div>
+          <div><p class="text-xs text-on-surface-variant">Email</p><p id="modal-email" class="font-semibold text-on-surface text-sm">—</p></div>
+        </div>
+        <div class="text-sm border-t border-outline-variant/30 pt-3">
+          <p class="text-xs text-on-surface-variant">Incident Location</p>
+          <p id="modal-location" class="font-semibold text-on-surface mt-0.5">—</p>
+        </div>
+      </div>
+
+      <!-- Row 3: Complaint Description -->
+      <div class="space-y-3">
+        <h4 class="text-sm font-bold text-primary uppercase tracking-wider border-b border-outline-variant pb-1 flex items-center gap-1">
+          <span class="material-symbols-outlined text-base">notes</span> Complaint Description
+        </h4>
+        <div class="bg-surface p-4 rounded-xl text-xs leading-relaxed border border-outline-variant/50 max-h-32 overflow-y-auto whitespace-pre-wrap" id="modal-description">
+          —
+        </div>
+      </div>
+
+      <!-- Row 4: AI Analysis Results -->
+      <div class="space-y-3">
+        <h4 class="text-sm font-bold text-primary uppercase tracking-wider border-b border-outline-variant pb-1 flex items-center gap-1">
+          <span class="material-symbols-outlined text-base">auto_awesome</span> AI Diagnostics &amp; Routing
+        </h4>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs bg-gradient-to-br from-primary/5 to-secondary/5 p-4 rounded-xl border border-outline-variant">
+          <div><p class="text-xs text-on-surface-variant">Category</p><p id="modal-category" class="font-semibold text-on-surface text-sm">—</p></div>
+          <div><p class="text-xs text-on-surface-variant">Sentiment</p><p id="modal-sentiment" class="font-semibold text-on-surface text-sm">—</p></div>
+          <div><p class="text-xs text-on-surface-variant">Assigned Department</p><p id="modal-dept" class="font-semibold text-on-surface text-sm">—</p></div>
+        </div>
+      </div>
+
+      <!-- Row 5: Evidence / Attachments -->
+      <div class="space-y-3" id="modal-evidence-section">
+        <h4 class="text-sm font-bold text-primary uppercase tracking-wider border-b border-outline-variant pb-1 flex items-center gap-1">
+          <span class="material-symbols-outlined text-base">attach_file</span> Evidence &amp; Attachments
+        </h4>
+        <div id="modal-evidence-container" class="flex flex-wrap gap-3">
+          <!-- Populated by JS -->
+        </div>
+      </div>
+
+      <!-- Row 6: Action (Status Change) -->
+      <div class="bg-surface-container-low p-5 rounded-xl border border-outline-variant space-y-4">
+        <h4 class="text-sm font-bold text-primary uppercase tracking-wider flex items-center gap-1">
+          <span class="material-symbols-outlined text-base">rule</span> Take Action
+        </h4>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div class="space-y-1">
+            <label class="block text-xs font-semibold text-on-surface" for="action-status">Update Status</label>
+            <select id="action-status" class="w-full border border-outline-variant rounded-lg bg-white py-2 px-3 text-xs focus:ring-secondary focus:border-secondary">
+              <option value="Registered">Registered</option>
+              <option value="Under Review">Under Review</option>
+              <option value="Assigned">Assigned</option>
+              <option value="In Progress">In Progress</option>
+              <option value="Resolved">Resolved</option>
+              <option value="Closed">Closed</option>
+            </select>
+          </div>
+          <div class="space-y-1">
+            <label class="block text-xs font-semibold text-on-surface" for="action-note">Resolution / Progress Note</label>
+            <textarea id="action-note" rows="2" placeholder="e.g. Ground inspection scheduled / pipeline leak repaired..." class="w-full border border-outline-variant rounded-lg bg-white py-2 px-3 text-xs focus:ring-secondary focus:border-secondary resize-none"></textarea>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Modal Footer -->
+    <div class="bg-surface-container-low border-t border-outline-variant p-4 flex justify-end gap-3 flex-shrink-0">
+      <button onclick="closeAdminModal()" class="px-5 py-2 border border-outline rounded-lg text-xs font-semibold hover:bg-surface-container transition-all">Cancel</button>
+      <button id="save-status-btn" class="bg-secondary text-white px-6 py-2 rounded-lg text-xs font-semibold hover:brightness-110 active:scale-[0.98] transition-all flex items-center gap-1.5">
+        <span class="material-symbols-outlined text-base">save</span> Save Changes
+      </button>
+    </div>
+  </div>
+</div>
+
+</div>
+</main>
+
+<!-- Lightbox for evidence images -->
+<div id="admin-lightbox" onclick="this.classList.remove('open')" title="Click to close">
+  <img id="admin-lightbox-img" src="" alt="Evidence full view" onclick="event.stopPropagation()"/>
+</div>
+
+<script>
+    function openAdminLightbox(url) {
+        document.getElementById('admin-lightbox-img').src = url;
+        document.getElementById('admin-lightbox').classList.add('open');
+    }
+
+    function openTab(tabName) {
+        document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+        document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active', 'bg-secondary-container', 'text-on-secondary-container'));
+        document.querySelectorAll('.tab-btn').forEach(el => el.classList.add('text-on-surface-variant'));
+
+        document.getElementById(tabName + 'Tab').classList.remove('hidden');
+        
+        const titleEl = document.getElementById('page-title');
+        if(titleEl) {
+            titleEl.textContent = tabName === 'Dashboard' ? 'Dashboard Overview' : tabName;
+        }
+        
+        const activeBtn = Array.from(document.querySelectorAll('.tab-btn')).find(b => b.textContent.trim().toLowerCase().includes(tabName.replace('Tab', '').toLowerCase()));
+        if(activeBtn) {
+            activeBtn.classList.add('active', 'bg-secondary-container', 'text-on-secondary-container');
+            activeBtn.classList.remove('text-on-surface-variant');
+        }
+    }
+
+    // Logout logic
+    document.getElementById('logout-btn').addEventListener('click', async () => {
+        try {
+            await fetch('/api/logout', { method: 'POST' });
+        } catch(e) { console.error(e); }
+        window.location.href = '/admin_login';
+    });
+
+        // ─── CONFIG & STATE ──────────────────────────────────────────
+        const API = 'http://127.0.0.1:5000/api';
+        let complaints = [];
+        let stats = null;
+        let selectedComplaintId = null;
+
+        // Elements
+        const totalComplaintsEl = document.getElementById('admin-total-complaints');
+        const pendingIssuesEl = document.getElementById('admin-pending-issues');
+        const resolutionRateEl = document.getElementById('admin-resolution-rate');
+        const tableBody = document.getElementById('admin-table-body');
+        const categoryFilter = document.getElementById('admin-category-filter');
+        const searchInput = document.getElementById('admin-search');
+        const categoryDistContainer = document.getElementById('admin-category-distribution');
+
+        const pieCenterLabel = document.getElementById('pie-center-label');
+        const pieCenterPct = document.getElementById('pie-center-pct');
+
+        // Modal Elements
+        const modal = document.getElementById('admin-detail-modal');
+        const saveBtn = document.getElementById('save-status-btn');
+
+        // Close Modal
+        function closeAdminModal() {
+            modal.classList.add('hidden');
+        }
+
+        // Open Modal & Populate Data
+        function openAdminModal(id) {
+            selectedComplaintId = id;
+            const c = complaints.find(item => item.complaint_id === id);
+            if (!c) return;
+
+            document.getElementById('modal-complaint-id').textContent = c.complaint_id;
+            document.getElementById('modal-name').textContent = c.name;
+            document.getElementById('modal-phone').textContent = c.phone;
+            document.getElementById('modal-email').textContent = c.email;
+            document.getElementById('modal-location').textContent = c.address;
+            document.getElementById('modal-description').textContent = c.description;
+            document.getElementById('modal-category').textContent = c.category;
+            document.getElementById('modal-sentiment').textContent = c.sentiment || 'Neutral';
+            document.getElementById('modal-dept').textContent = c.department || 'Others';
+
+            // Status Badge
+            const statusEl = document.getElementById('modal-status');
+            statusEl.textContent = c.status;
+            if (c.status === 'Resolved' || c.status === 'Closed') {
+                statusEl.className = 'inline-block mt-1 px-3 py-0.5 rounded-full text-xs font-bold bg-green-100 text-green-800 border border-green-200';
+            } else if (c.status === 'In Progress') {
+                statusEl.className = 'inline-block mt-1 px-3 py-0.5 rounded-full text-xs font-bold bg-blue-100 text-blue-800 border border-blue-200';
+            } else {
+                statusEl.className = 'inline-block mt-1 px-3 py-0.5 rounded-full text-xs font-bold bg-amber-100 text-amber-800 border border-amber-200';
+            }
+
+            // Priority Badge
+            const priEl = document.getElementById('modal-priority');
+            priEl.textContent = c.priority;
+            const priClasses = {
+                'Critical': 'inline-block mt-1 px-3 py-0.5 rounded-full text-xs font-bold bg-red-100 text-red-800 border border-red-200',
+                'High': 'inline-block mt-1 px-3 py-0.5 rounded-full text-xs font-bold bg-orange-100 text-orange-800 border border-orange-200',
+                'Medium': 'inline-block mt-1 px-3 py-0.5 rounded-full text-xs font-bold bg-blue-100 text-blue-800 border border-blue-200',
+                'Low': 'inline-block mt-1 px-3 py-0.5 rounded-full text-xs font-bold bg-green-100 text-green-800 border border-green-200'
+            };
+            priEl.className = priClasses[c.priority] || priClasses['Medium'];
+
+            // Populate form values
+            document.getElementById('action-status').value = c.status;
+            document.getElementById('action-note').value = '';
+
+            // ── Evidence / Attachments ──────────────────────────
+            const evidenceContainer = document.getElementById('modal-evidence-container');
+            const evidenceFiles = c.evidence_files || [];
+            if (evidenceFiles.length === 0) {
+                evidenceContainer.innerHTML = `<p class="text-xs text-on-surface-variant italic flex items-center gap-1"><span class="material-symbols-outlined text-sm">hide_image</span> No evidence files uploaded with this complaint.</p>`;
+            } else {
+                evidenceContainer.innerHTML = evidenceFiles.map(fname => {
+                    const url = `http://127.0.0.1:5000/api/uploads/${encodeURIComponent(fname)}`;
+                    const ext = fname.split('.').pop().toLowerCase();
+                    const isImage = ['jpg','jpeg','png','gif','webp'].includes(ext);
+                    if (isImage) {
+                        return `
+                            <div class="admin-evidence-thumb">
+                                <img src="${url}" alt="Evidence: ${fname}" onclick="openAdminLightbox('${url}')" title="Click to enlarge" />
+                                <span class="ev-label" title="${fname}">${fname.replace(/^[a-f0-9]{8}_/, '')}</span>
+                            </div>`;
+                    } else {
+                        return `
+                            <div class="admin-evidence-thumb">
+                                <a href="${url}" target="_blank" class="admin-pdf-thumb" title="Open PDF">
+                                    <span class="material-symbols-outlined text-2xl">picture_as_pdf</span>
+                                    <span>PDF</span>
+                                </a>
+                                <span class="ev-label" title="${fname}">${fname.replace(/^[a-f0-9]{8}_/, '')}</span>
+                            </div>`;
+                    }
+                }).join('');
+            }
+
+            modal.classList.remove('hidden');
+        }
+
+        // Fetch Dashboard Stats & List
+        async function fetchDashboardData() {
+            try {
+                // 1. Fetch Stats
+                const statsRes = await fetch(`${API}/stats`);
+                if (statsRes.ok) {
+                    stats = await statsRes.json();
+                    
+                    totalComplaintsEl.textContent = stats.total;
+                    pendingIssuesEl.textContent = stats.pending;
+                    resolutionRateEl.textContent = `${stats.resolution_rate}%`;
+
+                    // Update category breakdown list
+                    if (stats.by_category) {
+                        const colors = ['bg-primary', 'bg-secondary', 'bg-secondary-container', 'bg-blue-300', 'bg-emerald-400', 'bg-indigo-400', 'bg-violet-400'];
+                        let keys = Object.keys(stats.by_category);
+                        let sortedCats = keys.map(k => ({name: k, count: stats.by_category[k]})).sort((a,b) => b.count - a.count);
+                        
+                        categoryDistContainer.innerHTML = sortedCats.map((item, idx) => {
+                            const pct = stats.total > 0 ? Math.round(item.count / stats.total * 100) : 0;
+                            const color = colors[idx % colors.length];
+                            return `
+                                <div class="flex items-center justify-between text-caption">
+                                    <div class="flex items-center gap-2"><span class="w-3 h-3 rounded-full ${color}"></span> ${item.name}</div>
+                                    <span class="font-bold">${pct}%</span>
+                                </div>
+                            `;
+                        }).join('');
+
+                        // Update pie center
+                        if (sortedCats.length > 0) {
+                            const topPct = stats.total > 0 ? Math.round(sortedCats[0].count / stats.total * 100) : 0;
+                            pieCenterLabel.textContent = sortedCats[0].name;
+                            pieCenterPct.textContent = `${topPct}%`;
+                        }
+                    }
+                }
+
+                // 2. Fetch Complaints List
+                const complaintsRes = await fetch(`${API}/complaints?per_page=100`);
+                if (complaintsRes.ok) {
+                    const data = await complaintsRes.json();
+                    complaints = data.items || [];
+                    renderTable();
+                    renderChart();
+                    renderDepartments();
+                }
+            } catch (err) {
+                console.log('Error fetching dashboard statistics.', err);
+            }
+        }
+
+        function renderChart() {
+            if (!complaints || complaints.length === 0) return;
+            const chartEl = document.getElementById('dashboard-chart');
+            const labelsEl = document.getElementById('dashboard-chart-labels');
+            if (!chartEl || !labelsEl) return;
+            
+            // Static counts for the resolution chart
+            const counts = [12, 19, 15, 25, 22, 30, 28];
+            const dayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+            const today = new Date();
+            const days = [];
+            
+            for (let i=6; i>=0; i--) {
+                const d = new Date(today);
+                d.setDate(today.getDate() - i);
+                days.push(d);
+            }
+            
+            const maxCount = Math.max(...counts, 1);
+            
+            chartEl.innerHTML = counts.map((count, idx) => {
+                const pct = Math.max((count / maxCount) * 100, 5);
+                const d = days[idx];
+                return `<div class="flex-1 bg-primary/20 hover:bg-primary transition-colors rounded-t" style="height: ${pct}%" title="${count} complaints on ${dayNames[d.getDay()]}"></div>`;
+            }).join('');
+            
+            labelsEl.innerHTML = days.map(d => `<span>${dayNames[d.getDay()]}</span>`).join('');
+        }
+
+        function addDepartment() {
+            const name = prompt("Enter new department name:");
+            if (name && stats && stats.by_department) {
+                stats.by_department[name] = 0;
+                renderDepartments();
+            }
+        }
+
+        function editDepartment(name) {
+            const newName = prompt("Edit department name:", name);
+            if (newName && newName !== name && stats && stats.by_department) {
+                stats.by_department[newName] = stats.by_department[name];
+                delete stats.by_department[name];
+                renderDepartments();
+            }
+        }
+
+        function renderDepartments() {
+            const gridEl = document.getElementById('admin-departments-grid');
+            if (!gridEl || !stats || !stats.by_department) return;
+            
+            const depts = Object.keys(stats.by_department).map(dept => {
+                return { name: dept, issues: stats.by_department[dept] };
+            });
+            
+            const icons = ['water_drop', 'bolt', 'directions_car', 'health_and_safety', 'account_balance', 'delete', 'eco', 'domain'];
+            const colors = ['bg-blue-100 text-blue-800', 'bg-amber-100 text-amber-800', 'bg-stone-200 text-stone-800', 'bg-red-100 text-red-800', 'bg-indigo-100 text-indigo-800', 'bg-secondary-container text-on-secondary-container', 'bg-green-100 text-green-800', 'bg-purple-100 text-purple-800'];
+            
+            gridEl.innerHTML = depts.map((d, idx) => {
+                const icon = icons[idx % icons.length];
+                const color = colors[idx % colors.length];
+                const personnel = Math.floor(Math.random() * 50) + 10; // Dummy personnel data
+                
+                return `
+                    <div class="bg-surface-container-lowest p-6 rounded-xl shadow-sm border border-outline-variant hover:border-secondary transition-all">
+                      <div class="flex justify-between items-start mb-4">
+                        <div class="w-12 h-12 rounded-lg ${color} flex items-center justify-center">
+                          <span class="material-symbols-outlined text-[28px]">${icon}</span>
+                        </div>
+                        <button onclick="editDepartment('${d.name}')" class="text-on-surface-variant hover:text-secondary"><span class="material-symbols-outlined">edit</span></button>
+                      </div>
+                      <h4 class="text-headline-md font-bold text-on-surface mb-1">${d.name}</h4>
+                      <p class="text-caption text-on-surface-variant mb-4 h-10">Managed by ${d.name} personnel.</p>
+                      <div class="flex justify-between items-center pt-4 border-t border-outline-variant">
+                        <div>
+                          <span class="text-caption text-on-surface-variant block">Personnel</span>
+                          <span class="text-label-md font-bold">${personnel}</span>
+                        </div>
+                        <div class="text-right">
+                          <span class="text-caption text-on-surface-variant block">Active Issues</span>
+                          <span class="text-label-md font-bold text-error">${d.issues}</span>
+                        </div>
+                      </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function downloadCSV() {
+            if (complaints.length === 0) {
+                alert("No grievances to export.");
+                return;
+            }
+            
+            const headers = ["Complaint ID", "Category", "Priority", "Status", "Department", "Sentiment", "Created At", "Address", "Description"];
+            const rows = complaints.map(c => [
+                `"${c.complaint_id || ''}"`,
+                `"${(c.category || '').replace(/"/g, '""')}"`,
+                `"${c.priority || ''}"`,
+                `"${c.status || ''}"`,
+                `"${(c.department || '').replace(/"/g, '""')}"`,
+                `"${c.sentiment || ''}"`,
+                `"${c.created_at || ''}"`,
+                `"${(c.address || '').replace(/"/g, '""')}"`,
+                `"${(c.description || '').replace(/"/g, '""')}"`
+            ]);
+            
+            let csvContent = headers.join(",") + "\\n" + rows.map(e => e.join(",")).join("\\n");
+                
+            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement("a");
+            const url = URL.createObjectURL(blob);
+            link.setAttribute("href", url);
+            link.setAttribute("download", "grievances_export.csv");
+            link.style.display = 'none';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+        
+        async function loadSettings() {
+            try {
+                const res = await fetch(`${API}/settings`);
+                if (!res.ok) throw new Error('Failed to load settings');
+                const s = await res.json();
+
+                document.getElementById('setting-maintenance').checked = s.maintenance || false;
+                document.getElementById('setting-anon').checked = s.anon !== undefined ? s.anon : true;
+                document.getElementById('setting-sms').checked = s.sms || false;
+                document.getElementById('setting-email').checked = s.email !== undefined ? s.email : true;
+                document.getElementById('setting-profanity').checked = s.profanity !== undefined ? s.profanity : true;
+                document.getElementById('setting-duplicate').checked = s.duplicate !== undefined ? s.duplicate : true;
+
+                const threshold = s.threshold !== undefined ? s.threshold : 65;
+                const tEl = document.getElementById('setting-threshold');
+                tEl.value = threshold;
+                document.getElementById('setting-threshold-val').textContent = threshold + '%';
+
+                // Show maintenance banner if active
+                const banner = document.getElementById('maintenance-banner');
+                if (s.maintenance) {
+                    banner.classList.remove('hidden');
+                    banner.classList.add('flex');
+                } else {
+                    banner.classList.add('hidden');
+                    banner.classList.remove('flex');
+                }
+            } catch (e) {
+                console.warn('Could not load settings from server, falling back to localStorage.', e);
+                // Fallback to localStorage if server is not reachable
+                try {
+                    const settings = JSON.parse(localStorage.getItem('adminDashboardSettings') || '{}');
+                    if (settings.maintenance !== undefined) document.getElementById('setting-maintenance').checked = settings.maintenance;
+                    if (settings.anon !== undefined) document.getElementById('setting-anon').checked = settings.anon;
+                    if (settings.sms !== undefined) document.getElementById('setting-sms').checked = settings.sms;
+                    if (settings.email !== undefined) document.getElementById('setting-email').checked = settings.email;
+                    if (settings.profanity !== undefined) document.getElementById('setting-profanity').checked = settings.profanity;
+                    if (settings.duplicate !== undefined) document.getElementById('setting-duplicate').checked = settings.duplicate;
+                    if (settings.threshold !== undefined) {
+                        const tEl = document.getElementById('setting-threshold');
+                        tEl.value = settings.threshold;
+                        document.getElementById('setting-threshold-val').textContent = settings.threshold + '%';
+                    }
+                } catch(e2) {}
+            }
+        }
+        
+        async function saveSettings() {
+            const settings = {
+                maintenance: document.getElementById('setting-maintenance').checked,
+                anon: document.getElementById('setting-anon').checked,
+                sms: document.getElementById('setting-sms').checked,
+                email: document.getElementById('setting-email').checked,
+                profanity: document.getElementById('setting-profanity').checked,
+                duplicate: document.getElementById('setting-duplicate').checked,
+                threshold: parseInt(document.getElementById('setting-threshold').value)
+            };
+
+            try {
+                const res = await fetch(`${API}/settings`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(settings)
+                });
+                if (!res.ok) throw new Error('Server error');
+                const data = await res.json();
+
+                // Update maintenance banner live
+                const banner = document.getElementById('maintenance-banner');
+                if (settings.maintenance) {
+                    banner.classList.remove('hidden');
+                    banner.classList.add('flex');
+                } else {
+                    banner.classList.add('hidden');
+                    banner.classList.remove('flex');
+                }
+
+                alert('✅ System settings have been saved to the server successfully.');
+            } catch(e) {
+                // Fallback to localStorage if server unreachable
+                localStorage.setItem('adminDashboardSettings', JSON.stringify(settings));
+                alert('⚠️ Server unreachable. Settings saved locally (will sync on next server restart).');
+            }
+        }
+
+        // Render table records
+        function renderTable() {
+            const catVal = categoryFilter.value;
+            const searchVal = searchInput.value.trim().toLowerCase();
+
+            // Filter
+            const filtered = complaints.filter(c => {
+                const matchCat = !catVal || c.category === catVal;
+                const matchQuery = !searchVal || 
+                    c.complaint_id.toLowerCase().includes(searchVal) ||
+                    c.name.toLowerCase().includes(searchVal) ||
+                    c.description.toLowerCase().includes(searchVal);
+                return matchCat && matchQuery;
+            });
+
+            if (filtered.length === 0) {
+                tableBody.innerHTML = `
+                    <tr>
+                        <td colspan="6" class="px-6 py-8 text-center text-on-surface-variant italic">No grievances found matching the filters.</td>
+                    </tr>
+                `;
+                return;
+            }
+
+            tableBody.innerHTML = filtered.map(c => {
+                // Priority Badge
+                let priClass = 'bg-blue-100 text-blue-800 border-blue-200';
+                if (c.priority === 'Critical') priClass = 'bg-red-100 text-red-800 border-red-200';
+                else if (c.priority === 'High') priClass = 'bg-orange-100 text-orange-800 border-orange-200';
+                else if (c.priority === 'Low') priClass = 'bg-green-100 text-green-800 border-green-200';
+
+                // Status Badge Dot
+                let dotClass = 'bg-amber-500';
+                if (c.status === 'In Progress') dotClass = 'bg-blue-500';
+                else if (c.status === 'Resolved' || c.status === 'Closed') dotClass = 'bg-green-500';
+
+                // Date calculator
+                let dateStr = 'Just now';
+                if (c.created_at) {
+                    const diffMs = new Date() - new Date(c.created_at);
+                    const diffMins = Math.round(diffMs / (1000 * 60));
+                    const diffHours = Math.round(diffMs / (1000 * 60 * 60));
+                    const diffDays = Math.round(diffMs / (1000 * 60 * 60 * 24));
+                    
+                    if (diffMins < 60) dateStr = `${Math.max(1, diffMins)} min${diffMins > 1 ? 's' : ''} ago`;
+                    else if (diffHours < 24) dateStr = `${diffHours} hour${diffHours > 1 ? 's' : ''} ago`;
+                    else dateStr = `${diffDays} day${diffDays > 1 ? 's' : ''} ago`;
+                }
+
+                return `
+                    <tr class="hover:bg-surface-container-low transition-colors group">
+                        <td class="px-6 py-4 font-bold text-primary">
+                            ${c.complaint_id}
+                            ${c.duplicate_count > 0 ? `<br><span class="inline-block mt-1 px-2 py-0.5 rounded text-[10px] font-bold bg-red-100 text-red-800 border border-red-200 shadow-sm">🔥 ${c.duplicate_count + 1} Total Reports</span>` : ''}
+                        </td>
+                        <td class="px-6 py-4 text-body-md">${c.category}</td>
+                        <td class="px-6 py-4">
+                            <span class="px-3 py-1 rounded-full text-caption font-bold border ${priClass}">${c.priority.toUpperCase()}</span>
+                        </td>
+                        <td class="px-6 py-4">
+                            <div class="flex items-center gap-2 text-body-md font-medium text-on-surface">
+                                <span class="w-2 h-2 rounded-full ${dotClass}"></span> ${c.status}
+                            </div>
+                        </td>
+                        <td class="px-6 py-4 text-caption text-on-surface-variant">${dateStr}</td>
+                        <td class="px-6 py-4 text-right">
+                            <button onclick="openAdminModal('${c.complaint_id}')" class="text-secondary font-bold text-label-md hover:underline">View Details</button>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        // Save Status Update action
+        saveBtn.addEventListener('click', async () => {
+            if (!selectedComplaintId) return;
+
+            const nextStatus = document.getElementById('action-status').value;
+            const progressNote = document.getElementById('action-note').value.trim();
+
+            if (!progressNote) {
+                alert('Please enter a short resolution/progress note describing the status update.');
+                return;
+            }
+
+            saveBtn.disabled = true;
+            saveBtn.innerHTML = '<span class="animate-spin material-symbols-outlined text-base">progress_activity</span> Saving...';
+
+            try {
+                const res = await fetch(`${API}/complaints/${selectedComplaintId}/status`, {
+                    method: 'PATCH',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({
+                        status: nextStatus,
+                        note: progressNote
+                    })
+                });
+
+                if (!res.ok) throw new Error('PATCH failed');
+                
+                closeAdminModal();
+                alert(`✅ Status for ${selectedComplaintId} successfully updated to "${nextStatus}".`);
+                
+                // Refresh dashboard listings
+                fetchDashboardData();
+
+            } catch (err) {
+                alert('❌ Error updating complaint status. Please try again.');
+            } finally {
+                saveBtn.disabled = false;
+                saveBtn.innerHTML = '<span class="material-symbols-outlined text-base">save</span> Save Changes';
+            }
+        });
+
+        // Filter event listeners
+        categoryFilter.addEventListener('change', renderTable);
+        searchInput.addEventListener('input', renderTable);
+
+        // Initialize dashboard
+        window.addEventListener('DOMContentLoaded', () => {
+            loadSettings();
+            fetchDashboardData();
+        });
+        initAdminDashboard();
+        function generatePDFReport() {
+            // Get form inputs
+            const inputs = document.querySelectorAll('#ReportsTab form input[type="date"]');
+            const selects = document.querySelectorAll('#ReportsTab form select');
+            
+            const startDate = inputs[0].value;
+            const endDate = inputs[1].value;
+            const category = selects[0].value;
+            const status = selects[1].value;
+
+            // Filter complaints based on params
+            let filtered = complaints;
+            if (category !== 'All Categories') {
+                filtered = filtered.filter(c => c.category === category);
+            }
+            if (status !== 'All Statuses') {
+                const statusMap = {
+                    'Pending / Open': ['Registered', 'Under Review', 'Assigned', 'In Progress'],
+                    'Resolved': ['Resolved'],
+                    'Closed': ['Closed']
+                };
+                if (statusMap[status]) {
+                     filtered = filtered.filter(c => statusMap[status].includes(c.status));
+                }
+            }
+            if (startDate) {
+                const s = new Date(startDate);
+                filtered = filtered.filter(c => new Date(c.created_at) >= s);
+            }
+            if (endDate) {
+                const e = new Date(endDate);
+                e.setHours(23, 59, 59, 999);
+                filtered = filtered.filter(c => new Date(c.created_at) <= e);
+            }
+
+            // Build Table HTML
+            let tableHTML = `
+                <table class="w-full text-left border-collapse mt-6 border border-gray-300">
+                    <thead>
+                        <tr class="bg-gray-100 border-b border-gray-300">
+                            <th class="p-3 text-sm font-bold text-gray-700 border-r border-gray-300">ID</th>
+                            <th class="p-3 text-sm font-bold text-gray-700 border-r border-gray-300">Date</th>
+                            <th class="p-3 text-sm font-bold text-gray-700 border-r border-gray-300">Category</th>
+                            <th class="p-3 text-sm font-bold text-gray-700 border-r border-gray-300">Priority</th>
+                            <th class="p-3 text-sm font-bold text-gray-700 border-r border-gray-300">Status</th>
+                            <th class="p-3 text-sm font-bold text-gray-700">Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+            `;
+            
+            if (filtered.length === 0) {
+                tableHTML += `<tr><td colspan="6" class="p-4 text-center text-gray-500 border-t border-gray-300">No grievances found for selected criteria.</td></tr>`;
+            } else {
+                filtered.forEach(c => {
+                    const date = new Date(c.created_at).toLocaleDateString();
+                    tableHTML += `
+                        <tr class="border-b border-gray-300">
+                            <td class="p-3 text-sm border-r border-gray-300">${c.complaint_id}</td>
+                            <td class="p-3 text-sm border-r border-gray-300">${date}</td>
+                            <td class="p-3 text-sm border-r border-gray-300">${c.category}</td>
+                            <td class="p-3 text-sm border-r border-gray-300">${c.priority}</td>
+                            <td class="p-3 text-sm border-r border-gray-300">${c.status}</td>
+                            <td class="p-3 text-sm text-gray-600 truncate max-w-xs">${c.description.substring(0, 50)}${c.description.length > 50 ? '...' : ''}</td>
+                        </tr>
+                    `;
+                });
+            }
+            tableHTML += `</tbody></table>`;
+
+            // Setup Print View
+            const printContent = document.getElementById('print-content');
+            printContent.innerHTML = `
+                <h2 class="text-2xl font-bold text-center text-primary mb-2">Grievance Report</h2>
+                <p class="text-sm text-center text-gray-600 mb-6">Generated on: ${new Date().toLocaleString()}</p>
+                <div class="mb-4 text-sm text-gray-700">
+                    <p><strong>Filters Applied:</strong></p>
+                    <ul class="list-disc ml-5 mt-1">
+                        <li>Category: ${category}</li>
+                        <li>Status: ${status}</li>
+                        <li>Date: ${startDate || 'Any'} to ${endDate || 'Any'}</li>
+                    </ul>
+                </div>
+                ${tableHTML}
+                <div class="mt-8 text-right text-sm text-gray-500">
+                    <p>Total Records: ${filtered.length}</p>
+                </div>
+            `;
+
+            // Call window.print
+            setTimeout(() => {
+                window.print();
+            }, 100);
+        }
+    </script>
+    <!-- Google Translate Widget -->
+    <script type="text/javascript">
+        function googleTranslateElementInit() {
+            new google.translate.TranslateElement({
+                pageLanguage: 'en',
+                includedLanguages: 'en,hi,te',
+                layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+            }, 'google_translate_element');
+        }
+    </script>
+    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+    <!-- Print Template (Hidden unless printing) -->
+    <div id="print-template" class="print-hidden-screen">
+        <!-- Header from Image Template -->
+        <div class="flex justify-between items-center px-8 py-4 bg-[#f8f9ff] border-b border-gray-200">
+            <div class="flex items-center gap-3">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/5/55/Emblem_of_India.svg" class="h-12" alt="Emblem of India">
+                <div>
+                    <div class="text-2xl font-bold text-[#002046] flex items-center gap-2">
+                        india.gov.in 
+                        <span class="bg-yellow-400 text-black text-[10px] font-bold px-1.5 py-0.5 rounded leading-none">BETA</span>
+                    </div>
+                    <div class="text-sm font-semibold text-blue-800 tracking-wide mt-0.5">National Portal of India</div>
+                </div>
+            </div>
+            <div class="flex items-center gap-5 text-gray-700">
+                <span class="material-symbols-outlined text-[24px]">search</span>
+                <span class="material-symbols-outlined text-[24px]">accessibility</span>
+                <span class="material-symbols-outlined text-[24px]">g_translate</span>
+            </div>
+        </div>
+        
+        <!-- Document Content Area -->
+        <div class="p-10 bg-white min-h-[800px] m-6 rounded-xl shadow-sm border border-gray-200">
+            <div id="print-content"></div>
+        </div>
+    </div>
+</body></html>

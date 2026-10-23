@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Track Status - Public Grievance Portal</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "surface-tint": "#465f88",
+                    "on-primary-container": "#87a0cd",
+                    "tertiary-container": "#323639",
+                    "primary": "#002046",
+                    "secondary": "#155fa8",
+                    "on-secondary-fixed-variant": "#004784",
+                    "on-error-container": "#93000a",
+                    "on-secondary-fixed": "#001c3a",
+                    "surface-variant": "#d9e3f4",
+                    "surface-container-high": "#dfe9fa",
+                    "on-tertiary-container": "#9b9fa2",
+                    "on-tertiary-fixed": "#181c1e",
+                    "secondary-container": "#76b0ff",
+                    "on-surface-variant": "#44474e",
+                    "surface-container-highest": "#d9e3f4",
+                    "primary-fixed": "#d6e3ff",
+                    "primary-fixed-dim": "#aec7f7",
+                    "tertiary": "#1d2123",
+                    "background": "#f8f9ff",
+                    "on-surface": "#121c28",
+                    "surface-dim": "#d1dbec",
+                    "outline-variant": "#c4c6cf",
+                    "on-secondary-container": "#00427b",
+                    "secondary-fixed": "#d4e3ff",
+                    "tertiary-fixed-dim": "#c3c7ca",
+                    "primary-container": "#1b365d",
+                    "inverse-on-surface": "#eaf1ff",
+                    "on-primary-fixed": "#001b3d",
+                    "surface-bright": "#f8f9ff",
+                    "surface-container-lowest": "#ffffff",
+                    "error": "#ba1a1a",
+                    "error-container": "#ffdad6",
+                    "surface-container": "#e5eeff",
+                    "secondary-fixed-dim": "#a5c8ff",
+                    "on-tertiary": "#ffffff",
+                    "on-error": "#ffffff",
+                    "on-primary-fixed-variant": "#2e476f",
+                    "on-background": "#121c28",
+                    "on-tertiary-fixed-variant": "#43474a",
+                    "inverse-primary": "#aec7f7",
+                    "surface-container-low": "#eef4ff",
+                    "surface": "#f8f9ff",
+                    "on-primary": "#ffffff",
+                    "tertiary-fixed": "#e0e3e6",
+                    "outline": "#74777f",
+                    "on-secondary": "#ffffff",
+                    "inverse-surface": "#27313e"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "spacing": {
+                    "container-max": "1280px",
+                    "base": "8px",
+                    "gutter": "24px",
+                    "margin-desktop": "64px",
+                    "margin-mobile": "16px"
+            },
+            "fontFamily": {
+                    "caption": ["Inter"],
+                    "body-md": ["Inter"],
+                    "headline-lg": ["Inter"],
+                    "headline-md": ["Inter"],
+                    "display-lg": ["Inter"],
+                    "label-md": ["Inter"],
+                    "body-lg": ["Inter"],
+                    "headline-lg-mobile": ["Inter"]
+            },
+            "fontSize": {
+                    "caption": ["12px", {"lineHeight": "16px", "fontWeight": "400"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                    "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                    "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "600"}],
+                    "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                    "headline-lg-mobile": ["28px", {"lineHeight": "36px", "fontWeight": "700"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        .progress-line::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: #d9e3f4;
+            z-index: 1;
+        }
+        .progress-line-active::after {
+            background: #155fa8;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(8px);
+        }
+        /* Google Translate Styling */
+        .goog-te-gadget-simple {
+            background-color: transparent !important;
+            border: 1px solid #c4c6cf !important;
+            padding: 4px 8px !important;
+            border-radius: 6px !important;
+            font-family: 'Inter', sans-serif !important;
+            font-size: 14px !important;
+        }
+        .goog-te-gadget-icon { display: none; }
+        .goog-te-banner-frame { display: none !important; }
+        body { top: 0 !important; }
+    </style>
+</head>
+<body class="bg-background text-on-background min-h-screen flex flex-col font-body-md">
+<!-- TopNavBar -->
+<header class="bg-surface dark:bg-surface-container-highest border-b border-outline-variant dark:border-outline sticky top-0 z-50">
+<div class="flex justify-between items-center w-full px-base md:px-margin-desktop max-w-container-max mx-auto h-16">
+<a href="/" class="text-headline-md font-headline-md font-bold text-primary dark:text-primary-fixed">
+                Public Grievance Portal
+            </a>
+<nav class="hidden md:flex gap-gutter">
+<a class="text-on-surface-variant dark:text-surface-variant hover:text-primary transition-colors text-label-md font-label-md" href="/">Home</a>
+<a class="text-on-surface-variant dark:text-surface-variant hover:text-primary transition-colors text-label-md font-label-md" href="/register">Register</a>
+<a class="text-secondary font-bold border-b-2 border-secondary pb-1 text-label-md font-label-md" href="/track">Track Status</a>
+<a class="text-on-surface-variant dark:text-surface-variant hover:text-primary transition-colors text-label-md font-label-md" href="/admin">Admin</a>
+</nav>
+<div class="flex items-center gap-4">
+<div id="google_translate_element"></div>
+<div class="flex gap-2">
+<button class="p-2 hover:bg-surface-container-low dark:hover:bg-surface-container-high transition-colors rounded-full">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<button class="p-2 hover:bg-surface-container-low dark:hover:bg-surface-container-high transition-colors rounded-full">
+<span class="material-symbols-outlined" data-icon="help">help</span>
+</button>
+</div>
+<a href="/admin" class="bg-primary text-on-primary px-6 py-2 rounded-lg font-label-md text-label-md hover:opacity-90 transition-all text-center flex items-center justify-center">Sign In</a>
+</div>
+</div>
+</header>
+<main class="flex-grow w-full max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-gutter">
+<!-- Breadcrumbs -->
+<nav class="flex items-center gap-2 mb-8 text-caption font-caption text-on-surface-variant">
+<a class="hover:text-primary" href="/">Portal Home</a>
+<span class="material-symbols-outlined text-[16px]" data-icon="chevron_right">chevron_right</span>
+<span class="text-on-surface font-semibold">Track Status</span>
+</nav>
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter">
+<!-- Search Section (Asymmetric Left) -->
+<section class="lg:col-span-4 space-y-6">
+<div class="bg-surface-container-low p-gutter rounded-xl shadow-sm border border-outline-variant">
+<h1 class="text-headline-md font-headline-md text-primary mb-2">Track Grievance</h1>
+<p class="text-body-md text-on-surface-variant mb-6">Enter your unique complaint reference number to check the current status of your application.</p>
+<div class="space-y-4">
+<div class="flex flex-col gap-2">
+<label class="text-label-md font-label-md text-on-surface" for="complaint-id">Complaint ID</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline" data-icon="search">search</span>
+<input class="w-full pl-10 pr-4 py-3 bg-surface border border-outline rounded-lg focus:ring-2 focus:ring-secondary focus:ring-offset-2 outline-none transition-all" id="complaint-id" placeholder="e.g. PG-2024-8842" type="text"/>
+</div>
+</div>
+<button class="w-full bg-secondary text-on-secondary py-3 rounded-lg font-label-md text-label-md hover:brightness-110 active:scale-[0.98] transition-all flex justify-center items-center gap-2">
+                            Search Status
+                            <span class="material-symbols-outlined" data-icon="arrow_forward">arrow_forward</span>
+</button>
+</div>
+</div>
+<div class="bg-secondary-container p-6 rounded-xl text-on-secondary-container">
+<div class="flex items-start gap-4">
+<span class="material-symbols-outlined text-4xl" data-icon="info" style="font-variation-settings: 'FILL' 1;">info</span>
+<div>
+<p class="font-bold text-label-md mb-1">Need help?</p>
+<p class="text-caption">If you lost your ID, please check the SMS/Email sent at the time of registration or visit your local municipal office.</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Empty State -->
+<section id="empty-state-section" class="lg:col-span-8 flex flex-col items-center justify-center p-12 bg-surface-container-lowest border border-outline-variant rounded-xl shadow-sm min-h-[400px]">
+    <div class="w-24 h-24 bg-surface-variant rounded-full flex items-center justify-center mb-6 text-primary">
+        <span class="material-symbols-outlined text-[48px]" data-icon="search">search</span>
+    </div>
+    <h2 class="text-headline-md font-headline-md text-primary mb-2">Track Your Grievance</h2>
+    <p class="text-body-md text-on-surface-variant max-w-md text-center">Enter your complaint reference ID in the search box on the left to view the real-time status and AI diagnostic details of your application.</p>
+</section>
+
+<!-- Results View (Bento Grid Style) -->
+<section id="results-section" class="lg:col-span-8 hidden">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-gutter h-full">
+<!-- Progress Tracker (Span 2) -->
+<div class="md:col-span-2 bg-surface-container-lowest border border-outline-variant p-gutter rounded-xl shadow-sm">
+<div class="flex justify-between items-center mb-10">
+<h2 class="text-headline-md font-headline-md text-primary">Live Progress</h2>
+<span id="current-status-badge" class="bg-secondary-container text-on-secondary-container px-4 py-1 rounded-full text-label-md font-bold">In Progress</span>
+</div>
+<div class="relative px-4">
+<!-- Mobile Vertical / Desktop Horizontal Progress -->
+<div class="flex flex-col md:flex-row justify-between relative">
+<!-- Horizontal Line for Desktop -->
+<div class="hidden md:block absolute top-6 left-0 right-0 h-[2px] bg-surface-variant z-0">
+<div id="progress-bar-fill" class="h-full bg-secondary w-3/4 transition-all duration-500"></div>
+</div>
+<!-- Step 1 -->
+<div class="flex flex-row md:flex-col items-center gap-4 md:gap-2 relative z-10 mb-8 md:mb-0">
+<div id="step-1-circle" class="w-12 h-12 rounded-full bg-secondary text-on-secondary flex items-center justify-center shadow-md">
+<span id="step-1-icon" class="material-symbols-outlined" data-icon="check">check</span>
+</div>
+<div class="flex flex-col md:items-center">
+<span id="step-1-text" class="text-label-md font-bold text-on-surface">Submitted</span>
+<span id="step-1-date" class="text-caption text-on-surface-variant">Oct 12, 2024</span>
+</div>
+</div>
+<!-- Step 2 -->
+<div class="flex flex-row md:flex-col items-center gap-4 md:gap-2 relative z-10 mb-8 md:mb-0">
+<div id="step-2-circle" class="w-12 h-12 rounded-full bg-secondary text-on-secondary flex items-center justify-center shadow-md">
+<span id="step-2-icon" class="material-symbols-outlined" data-icon="check">check</span>
+</div>
+<div class="flex flex-col md:items-center">
+<span id="step-2-text" class="text-label-md font-bold text-on-surface">Under Review</span>
+<span id="step-2-date" class="text-caption text-on-surface-variant">Oct 13, 2024</span>
+</div>
+</div>
+<!-- Step 3 -->
+<div class="flex flex-row md:flex-col items-center gap-4 md:gap-2 relative z-10 mb-8 md:mb-0">
+<div id="step-3-circle" class="w-12 h-12 rounded-full bg-secondary text-on-secondary flex items-center justify-center shadow-md">
+<span id="step-3-icon" class="material-symbols-outlined" data-icon="check">check</span>
+</div>
+<div class="flex flex-col md:items-center">
+<span id="step-3-text" class="text-label-md font-bold text-on-surface">Assigned</span>
+<span id="step-3-date" class="text-caption text-on-surface-variant">Oct 14, 2024</span>
+</div>
+</div>
+<!-- Step 4 (Current) -->
+<div class="flex flex-row md:flex-col items-center gap-4 md:gap-2 relative z-10 mb-8 md:mb-0">
+<div id="step-4-circle" class="w-12 h-12 rounded-full bg-surface border-4 border-secondary text-secondary flex items-center justify-center shadow-md animate-pulse">
+<span id="step-4-icon" class="material-symbols-outlined" data-icon="pending">pending</span>
+</div>
+<div class="flex flex-col md:items-center">
+<span id="step-4-text" class="text-label-md font-bold text-secondary">In Progress</span>
+<span id="step-4-date" class="text-caption text-on-surface-variant">Estimated: Oct 20</span>
+</div>
+</div>
+<!-- Step 5 -->
+<div class="flex flex-row md:flex-col items-center gap-4 md:gap-2 relative z-10">
+<div id="step-5-circle" class="w-12 h-12 rounded-full bg-surface border-2 border-outline-variant text-outline flex items-center justify-center">
+<span id="step-5-icon" class="material-symbols-outlined" data-icon="task_alt">task_alt</span>
+</div>
+<div class="flex flex-col md:items-center">
+<span id="step-5-text" class="text-label-md font-bold text-outline">Resolved</span>
+<span id="step-5-date" class="text-caption text-outline">TBD</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Detail Card 1: Meta -->
+<div class="bg-surface border border-outline-variant rounded-xl overflow-hidden shadow-sm flex flex-col">
+<div class="h-40 bg-surface-container overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A cinematic, high-angle shot of a clean city street with modern urban infrastructure and subtle hints of municipal maintenance work. The lighting is soft morning sun, creating a calm and professional atmosphere. The color palette is dominated by professional blues and clean grays, aligning with the institutional design system. The scene is crisp and highly detailed." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAl8DQD0MqXClO85Cvlzjz7LIhoqaDPhi8DCF7flrRUvIurHob2WFgda7twecbGGoVc6rBfvDY7OlyCLORHGtuCPq0CnXKVdYdPlqeCnbHXcuA8V4j6x8jiJleFc_KYT5Y5dlw_-M7PELODIvxJywluDnEXJGLuWnuLL5vlmRmFONJYyf11GwqAexSI9gc_ONSvXx-AMAop7YfJ_8GrPCXvrDxKz2d-IjIu_MO5bpDXstpB1a8kxTRKaxtd6J95HllEG9zD1AYRnks"/>
+</div>
+<div class="p-gutter space-y-4">
+<div class="flex justify-between items-start">
+<div>
+<span class="text-caption text-on-surface-variant uppercase tracking-wider font-bold">Category</span>
+<p id="track-category" class="text-body-lg font-semibold text-primary">Water Supply &amp; Leakage</p>
+</div>
+<span id="track-priority-badge" class="bg-error-container text-on-error-container px-3 py-1 rounded text-caption font-bold">High Priority</span>
+</div>
+<div class="border-t border-outline-variant pt-4">
+<span class="text-caption text-on-surface-variant uppercase tracking-wider font-bold">Location</span>
+<p id="track-location" class="text-body-md text-on-surface">Sector 42, Green Avenue Pipeline Branch</p>
+</div>
+</div>
+</div>
+<!-- Detail Card 2: Assignment -->
+<div class="bg-primary-container text-on-primary-fixed p-gutter rounded-xl flex flex-col justify-between shadow-sm relative overflow-hidden">
+<div class="relative z-10">
+<h3 class="text-headline-md font-headline-md text-primary-fixed mb-6">Department Details</h3>
+<div class="space-y-6">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 bg-on-primary-fixed-variant rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined text-primary-fixed" data-icon="account_balance">account_balance</span>
+</div>
+<div>
+<p class="text-caption text-on-primary-container">Assigned Department</p>
+<p id="track-dept" class="text-body-lg font-bold">Public Health Engineering</p>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 bg-on-primary-fixed-variant rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined text-primary-fixed" data-icon="person">person</span>
+</div>
+<div>
+<p class="text-caption text-on-primary-container">Lead Officer</p>
+<p id="track-officer" class="text-body-lg font-bold">Arjun Sharma</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Background Pattern Ornament -->
+<div class="absolute bottom-[-20px] right-[-20px] opacity-10">
+<span class="material-symbols-outlined text-[160px]" data-icon="engineering">engineering</span>
+</div>
+<div class="mt-8 pt-4 border-t border-on-primary-fixed-variant/30 flex justify-between items-center relative z-10">
+<p id="track-last-updated" class="text-caption">Last updated 4 hours ago</p>
+<button id="view-logs-btn" class="text-primary-fixed flex items-center gap-1 hover:underline text-label-md font-label-md">
+                                View Logs
+                                <span class="material-symbols-outlined text-[16px]" data-icon="open_in_new">open_in_new</span>
+</button>
+</div>
+</div>
+</div>
+</section>
+
+<!-- Timeline Logs Modal -->
+<div id="logs-modal" class="hidden fixed inset-0 z-50 overflow-y-auto flex items-center justify-center p-4 bg-primary/40 backdrop-blur-sm transition-opacity">
+  <div class="bg-white rounded-2xl max-w-md w-full shadow-2xl overflow-hidden border border-outline-variant fade-in">
+    <div class="bg-primary text-white p-5 flex justify-between items-center">
+      <div class="flex items-center gap-2">
+        <span class="material-symbols-outlined text-xl">history</span>
+        <h3 class="text-headline-md font-headline-md">Complaint History</h3>
+      </div>
+      <button id="close-modal-btn" class="text-white/80 hover:text-white hover:bg-white/10 p-1.5 rounded-lg transition-colors flex items-center justify-center">
+        <span class="material-symbols-outlined text-xl">close</span>
+      </button>
+    </div>
+    <div id="logs-modal-content" class="p-6 max-h-[380px] overflow-y-auto space-y-6">
+      <!-- Dynamic list of timeline logs -->
+    </div>
+  </div>
+</div>
+</div>
+</main>
+<!-- SideNavBar (Mobile Bottom Navigation) -->
+<nav class="md:hidden fixed bottom-0 left-0 right-0 bg-surface border-t border-outline-variant px-6 py-2 flex justify-between items-center z-50">
+<button class="flex flex-col items-center gap-1 text-on-surface-variant">
+<span class="material-symbols-outlined" data-icon="home">home</span>
+<span class="text-[10px]">Home</span>
+</button>
+<button class="flex flex-col items-center gap-1 text-on-surface-variant">
+<span class="material-symbols-outlined" data-icon="add_circle">add_circle</span>
+<span class="text-[10px]">Register</span>
+</button>
+<button class="flex flex-col items-center gap-1 text-secondary">
+<span class="material-symbols-outlined" data-icon="track_changes" style="font-variation-settings: 'FILL' 1;">track_changes</span>
+<span class="text-[10px] font-bold">Track</span>
+</button>
+<button class="flex flex-col items-center gap-1 text-on-surface-variant">
+<span class="material-symbols-outlined" data-icon="bar_chart">bar_chart</span>
+<span class="text-[10px]">Stats</span>
+</button>
+</nav>
+<!-- Footer -->
+<footer class="bg-tertiary dark:bg-tertiary-container text-on-tertiary w-full mt-gutter">
+<div class="max-w-container-max mx-auto py-gutter px-margin-mobile md:px-margin-desktop flex flex-col md:flex-row justify-between items-center gap-4">
+<div class="flex flex-col md:items-start items-center">
+<div class="text-label-md font-label-md font-bold text-on-tertiary mb-2">Public Grievance Portal</div>
+<p class="text-caption opacity-80 text-center md:text-left max-w-sm">© 2024 Government of Information Technology. All rights reserved. A unified platform for citizen services.</p>
+</div>
+<div class="flex flex-wrap justify-center gap-gutter">
+<a class="text-on-tertiary-container hover:text-on-tertiary hover:underline transition-all text-body-md font-body-md" href="#">Privacy Policy</a>
+<a class="text-on-tertiary-container hover:text-on-tertiary hover:underline transition-all text-body-md font-body-md" href="#">Terms of Service</a>
+<a class="text-on-tertiary-container hover:text-on-tertiary hover:underline transition-all text-body-md font-body-md" href="#">Contact Us</a>
+<a class="text-on-tertiary-container hover:text-on-tertiary hover:underline transition-all text-body-md font-body-md" href="#">Accessibility Statement</a>
+</div>
+</div>
+</footer>
+<script>
+        const API = 'http://127.0.0.1:5000/api';
+        const searchInput = document.getElementById('complaint-id');
+        const searchBtn = document.querySelector('button.bg-secondary');
+        const emptyStateSection = document.getElementById('empty-state-section');
+        const resultsSection = document.getElementById('results-section');
+
+        // Modal Elements
+        const logsModal = document.getElementById('logs-modal');
+        const logsContent = document.getElementById('logs-modal-content');
+        const closeModalBtn = document.getElementById('close-modal-btn');
+        const viewLogsBtn = document.getElementById('view-logs-btn');
+
+        let currentComplaintData = null;
+
+        // Modal opening/closing logic
+        function openLogsModal() {
+            if (!currentComplaintData || !currentComplaintData.timeline) return;
+            
+            // Build timeline items
+            logsContent.innerHTML = currentComplaintData.timeline.map((t, idx) => {
+                const date = new Date(t.date).toLocaleDateString('en-US', {
+                    month: 'short', day: 'numeric', year: 'numeric', hour: '2-digit', minute: '2-digit'
+                });
+                return `
+                    <div class="flex gap-4 relative">
+                        ${idx < currentComplaintData.timeline.length - 1 ? '<div class="absolute left-4 top-8 bottom-0 w-0.5 bg-surface-variant"></div>' : ''}
+                        <div class="w-8 h-8 rounded-full bg-secondary-container text-on-secondary-container flex items-center justify-center flex-shrink-0 z-10">
+                            <span class="material-symbols-outlined text-sm">event_note</span>
+                        </div>
+                        <div class="space-y-1 pb-4">
+                            <div class="flex items-center gap-2">
+                                <span class="font-bold text-sm text-primary uppercase">${t.stage}</span>
+                                <span class="text-[10px] text-on-surface-variant bg-surface-container px-2 py-0.5 rounded">${date}</span>
+                            </div>
+                            <p class="text-xs text-on-surface-variant">${t.note || 'No notes available.'}</p>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            logsModal.classList.remove('hidden');
+            logsModal.classList.add('flex');
+        }
+
+        function closeLogsModal() {
+            logsModal.classList.add('hidden');
+            logsModal.classList.remove('flex');
+        }
+
+        closeModalBtn.addEventListener('click', closeLogsModal);
+        viewLogsBtn.addEventListener('click', openLogsModal);
+
+        // Click outside modal to close
+        logsModal.addEventListener('click', (e) => {
+            if (e.target === logsModal) closeLogsModal();
+        });
+
+        // Mapping helper for statuses
+        const STATUS_MAPPING = {
+            'Registered': 1,
+            'Under Review': 2,
+            'Assigned': 3,
+            'In Progress': 4,
+            'Resolved': 5,
+            'Closed': 5
+        };
+
+        const STEP_INFO = [
+            { stage: 'Registered', label: 'Submitted' },
+            { stage: 'Under Review', label: 'Under Review' },
+            { stage: 'Assigned', label: 'Assigned' },
+            { stage: 'In Progress', label: 'In Progress' },
+            { stage: 'Resolved', label: 'Resolved' }
+        ];
+
+        function updateProgressTracker(status, timeline) {
+            const currentLevel = STATUS_MAPPING[status] || 1;
+            const badge = document.getElementById('current-status-badge');
+            
+            badge.textContent = status;
+            // Set badge colors based on status
+            if (status === 'Resolved' || status === 'Closed') {
+                badge.className = 'bg-green-100 text-green-800 px-4 py-1 rounded-full text-label-md font-bold border border-green-200';
+            } else if (status === 'In Progress') {
+                badge.className = 'bg-blue-100 text-blue-800 px-4 py-1 rounded-full text-label-md font-bold border border-blue-200';
+            } else {
+                badge.className = 'bg-secondary-container text-on-secondary-container px-4 py-1 rounded-full text-label-md font-bold';
+            }
+
+            // Desktop Line Width Fill
+            const fillWidths = { 1: '0%', 2: '25%', 3: '50%', 4: '75%', 5: '100%' };
+            document.getElementById('progress-bar-fill').style.width = fillWidths[currentLevel] || '75%';
+
+            // Update individual step circles, icons, text styles
+            for (let i = 1; i <= 5; i++) {
+                const circle = document.getElementById(`step-${i}-circle`);
+                const icon = document.getElementById(`step-${i}-icon`);
+                const text = document.getElementById(`step-${i}-text`);
+                const dateEl = document.getElementById(`step-${i}-date`);
+
+                // Reset animation
+                circle.classList.remove('animate-pulse');
+
+                // Determine step time from history
+                const stepStageName = STEP_INFO[i - 1].stage;
+                const matchedTimeline = timeline.find(t => t.stage === stepStageName || (stepStageName === 'Resolved' && t.stage === 'Closed'));
+                let stepDate = 'TBD';
+                if (matchedTimeline) {
+                    stepDate = new Date(matchedTimeline.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+                } else if (i === 4 && status === 'In Progress') {
+                    // Estimate date if currently in progress
+                    const regDate = timeline[0] ? new Date(timeline[0].date) : new Date();
+                    regDate.setDate(regDate.getDate() + 7);
+                    stepDate = `Est: ${regDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}`;
+                }
+
+                dateEl.textContent = stepDate;
+
+                if (i < currentLevel) {
+                    // Completed step
+                    circle.className = 'w-12 h-12 rounded-full bg-secondary text-on-secondary flex items-center justify-center shadow-md';
+                    icon.textContent = 'check';
+                    text.className = 'text-label-md font-bold text-on-surface';
+                } else if (i === currentLevel) {
+                    // Current active step
+                    circle.className = 'w-12 h-12 rounded-full bg-surface border-4 border-secondary text-secondary flex items-center justify-center shadow-md animate-pulse';
+                    icon.textContent = 'pending';
+                    text.className = 'text-label-md font-bold text-secondary';
+                } else {
+                    // Pending step
+                    circle.className = 'w-12 h-12 rounded-full bg-surface border-2 border-outline-variant text-outline flex items-center justify-center';
+                    icon.textContent = 'task_alt';
+                    text.className = 'text-label-md font-bold text-outline';
+                }
+            }
+        }
+
+        async function searchComplaint(id) {
+            id = id.trim();
+            if (!id) return;
+
+            searchBtn.disabled = true;
+            searchBtn.innerHTML = '<span class="animate-spin material-symbols-outlined">progress_activity</span> Searching...';
+
+            try {
+                const res = await fetch(`${API}/complaints/${id}`);
+                if (!res.ok) {
+                    if (res.status === 404) {
+                        alert(`❌ Complaint ID "${id}" was not found. Please verify your reference number and try again.`);
+                    } else {
+                        throw new Error('API error');
+                    }
+                    return;
+                }
+                const data = await res.json();
+                currentComplaintData = data;
+
+                // Update detail cards
+                document.getElementById('track-category').textContent = data.category;
+                document.getElementById('track-location').textContent = data.address;
+                document.getElementById('track-dept').textContent = data.department || 'Municipal Corporation';
+                
+                // Officer mapping
+                const officers = {
+                    'Electricity Board': 'Rajesh Patel (Executive Engineer)',
+                    'Water Supply & Sanitation': 'Arjun Sharma (Chief Assistant)',
+                    'Municipal Corporation': 'Sanjay Verma (Ward Officer)',
+                    'Public Works Department': 'Vikram Rathore (Lead Road Inspector)',
+                    'Police Department': 'Inspector A. K. Sen (Station Chief)'
+                };
+                document.getElementById('track-officer').textContent = officers[data.department] || 'Arjun Sharma (Executive Officer)';
+
+                // Priority Badge
+                const priBadge = document.getElementById('track-priority-badge');
+                priBadge.textContent = `${data.priority} Priority`;
+                const priClasses = {
+                    'Critical': 'bg-red-100 text-red-800 px-3 py-1 rounded text-caption font-bold border border-red-200',
+                    'High': 'bg-orange-100 text-orange-800 px-3 py-1 rounded text-caption font-bold border border-orange-200',
+                    'Medium': 'bg-blue-100 text-blue-800 px-3 py-1 rounded text-caption font-bold border border-blue-200',
+                    'Low': 'bg-green-100 text-green-800 px-3 py-1 rounded text-caption font-bold border border-green-200'
+                };
+                priBadge.className = priClasses[data.priority] || priClasses['Medium'];
+
+                // Last Updated calculation
+                const lastLog = data.timeline[data.timeline.length - 1];
+                const diffMs = new Date() - new Date(lastLog.date);
+                let diffHours = Math.max(1, Math.round(diffMs / (1000 * 60 * 60)));
+                if (isNaN(diffHours)) diffHours = 4;
+                document.getElementById('track-last-updated').textContent = `Last updated ${diffHours} hour${diffHours > 1 ? 's' : ''} ago`;
+
+                // Update progress step nodes
+                updateProgressTracker(data.status, data.timeline);
+
+                // Highlight/Flash layout slightly to indicate data refreshed
+                emptyStateSection.classList.add('hidden');
+                resultsSection.classList.remove('hidden');
+                resultsSection.classList.add('opacity-50');
+                setTimeout(() => resultsSection.classList.remove('opacity-50'), 250);
+
+            } catch (err) {
+                console.log('Search error:', err);
+                alert('❌ Error connecting to server. Please make sure the Flask backend is running.');
+            } finally {
+                searchBtn.disabled = false;
+                searchBtn.innerHTML = 'Search Status <span class="material-symbols-outlined" data-icon="arrow_forward">arrow_forward</span>';
+            }
+        }
+
+        // Search Trigger listeners
+        searchInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                searchComplaint(searchInput.value);
+            }
+        });
+
+        searchBtn.addEventListener('click', () => {
+            searchComplaint(searchInput.value);
+        });
+
+        // Check for URL search params on load
+        window.addEventListener('DOMContentLoaded', () => {
+            const params = new URLSearchParams(window.location.search);
+            const complaintId = params.get('id');
+            if (complaintId) {
+                searchInput.value = complaintId;
+                searchComplaint(complaintId);
+            }
+        });
+    </script>
+    <!-- Google Translate Widget -->
+    <script type="text/javascript">
+        function googleTranslateElementInit() {
+            new google.translate.TranslateElement({
+                pageLanguage: 'en',
+                includedLanguages: 'en,hi,te',
+                layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+            }, 'google_translate_element');
+        }
+    </script>
+    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+</body></html>
